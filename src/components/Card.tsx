@@ -1,4 +1,4 @@
-import { Profile, Stats } from '@/types';
+import type { Profile, Stats } from '@/types';
 import Image from 'next/image';
 
 interface CardProps {
@@ -15,16 +15,18 @@ export default function Card({ profile, stats }: CardProps) {
         </h2>
       </div>
 
-      <figure className='px-10 pt-10'>
-        <Image
-          src={profile?.avatar}
-          width={250}
-          height={500}
-          alt={`Profile picture of ${profile.name ?? profile.username}`}
-          className='w-48 h-48 object-cover rounded-full'
-          priority
-        />
-      </figure>
+      {profile.avatar && (
+        <figure className='px-10 pt-10'>
+          <Image
+            src={profile.avatar}
+            width={250}
+            height={500}
+            alt={`Profile picture of ${profile.name ?? profile.username}`}
+            className='w-48 h-48 object-cover rounded-full'
+            priority
+          />
+        </figure>
+      )}
       <div className='card-body items-center text-center'>
         <div className='badge badge-primary badge-outline px-5'>
           Average Rating: {Math.floor(stats.rating ?? 0)}

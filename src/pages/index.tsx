@@ -1,6 +1,6 @@
 import SearchForm from '@/components/Search';
 import { useState } from 'react';
-import { Profile, Stats } from '@/types';
+import type { Profile, Stats } from '@/types';
 import Card from '@/components/Card';
 
 export default function Home() {

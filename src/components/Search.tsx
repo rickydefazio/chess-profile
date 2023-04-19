@@ -1,4 +1,4 @@
-import { Profile, Stats } from '@/types';
+import type { Profile, Stats } from '@/types';
 import { useState } from 'react';
 
 interface FetchResponse {
