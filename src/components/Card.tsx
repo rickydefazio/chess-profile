@@ -29,8 +29,8 @@ export default function Card({ profile, stats }: CardProps) {
         </figure>
       )}
       <div className='card-body items-center text-center'>
-        <div className='badge badge-secondary badge-outline px-5'>
-          Average Rating: {Math.floor(stats.rating ?? 0)}
+        <div className='font-bold badge badge-secondary badge-outline animate-pulse px-5'>
+          Rating: {Math.floor(stats.rating ?? 0)}
         </div>
         <div className='stats shadow'>
           <div className='stat'>
