@@ -10,12 +10,14 @@ interface SearchProps {
   setProfile: React.Dispatch<React.SetStateAction<Profile | undefined>>;
   setStats: React.Dispatch<React.SetStateAction<Stats | undefined>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setNotFound: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Search({
   setProfile,
   setStats,
   setIsLoading,
+  setNotFound,
 }: SearchProps) {
   const [username, setUsername] = useState('');
 
@@ -37,6 +39,7 @@ export default function Search({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+    setNotFound(false);
 
     try {
       const storedData = getDataFromSessionStorage(username);
@@ -52,6 +55,7 @@ export default function Search({
 
           setProfile(undefined);
           setStats(undefined);
+          setNotFound(true);
           return;
         }
 
