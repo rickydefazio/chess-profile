@@ -1,8 +1,9 @@
 export interface Profile {
-  avatar: string;
   name: string;
   url: string;
   username: string;
+  avatar?: string;
+  location?: string;
 }
 
 export interface Stats {

@@ -59,7 +59,7 @@ export default function SearchForm({
       <input
         type='text'
         placeholder='Chess.com Username'
-        className='input input-bordered input-primary w-full max-w-xs text-white'
+        className='input input-bordered input-primary w-full max-w-xs text-default'
         value={username}
         autoFocus
         onChange={handleTextChange}

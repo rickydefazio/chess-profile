@@ -10,9 +10,10 @@ export default function Card({ profile, stats }: CardProps) {
   return (
     <div className='card w-96 bg-base-100 shadow-xl'>
       <div className='flex justify-center pt-4'>
-        <h2 className='card-title text-white'>
-          {profile.name ?? profile.username}
-        </h2>
+        <div>
+          <h2 className='card-title'>{profile.name ?? profile.username}</h2>
+          <p className='text-primary text-center'>{profile.location}</p>
+        </div>
       </div>
 
       {profile.avatar && (
@@ -28,7 +29,7 @@ export default function Card({ profile, stats }: CardProps) {
         </figure>
       )}
       <div className='card-body items-center text-center'>
-        <div className='badge badge-primary badge-outline px-5'>
+        <div className='badge badge-secondary badge-outline px-5'>
           Average Rating: {Math.floor(stats.rating ?? 0)}
         </div>
         <div className='stats shadow'>
@@ -53,7 +54,12 @@ export default function Card({ profile, stats }: CardProps) {
         </div>
 
         <div className='card-actions'>
-          <a href={profile.url} className='btn btn-primary'>
+          <a
+            href={profile.url}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='btn btn-primary'
+          >
             View Profile
           </a>
         </div>
