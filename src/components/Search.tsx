@@ -12,7 +12,7 @@ interface SearchProps {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function SearchForm({
+export default function Search({
   setProfile,
   setStats,
   setIsLoading,
@@ -23,26 +23,44 @@ export default function SearchForm({
     setUsername(e.target.value);
   };
 
+  const storeDataInSessionStorage = (username: string, data: FetchResponse) => {
+    sessionStorage.setItem(`playerData_${username}`, JSON.stringify(data));
+  };
+
+  const getDataFromSessionStorage = (
+    username: string
+  ): FetchResponse | null => {
+    const storedData = sessionStorage.getItem(`playerData_${username}`);
+    return storedData ? JSON.parse(storedData) : null;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setIsLoading(true);
 
     try {
-      const response = await fetch(`/api/player?username=${username}`);
+      const storedData = getDataFromSessionStorage(username);
 
-      if (!response.ok) {
-        console.error('Error fetching data from the API');
+      if (storedData) {
+        setProfile(storedData.profile);
+        setStats(storedData.stats);
+      } else {
+        const response = await fetch(`/api/player?username=${username}`);
 
-        setProfile(undefined);
-        setStats(undefined);
-        return;
+        if (!response.ok) {
+          console.error('Error fetching data from the API');
+
+          setProfile(undefined);
+          setStats(undefined);
+          return;
+        }
+
+        const data: FetchResponse = await response.json();
+
+        setProfile(data.profile);
+        setStats(data.stats);
+        storeDataInSessionStorage(username, data);
       }
-
-      const { profile, stats }: FetchResponse = await response.json();
-
-      setProfile(profile);
-      setStats(stats);
     } catch (e) {
       console.error(e);
     } finally {

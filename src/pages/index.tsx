@@ -1,4 +1,4 @@
-import SearchForm from '@/components/Search';
+import Search from '@/components/Search';
 import { useState } from 'react';
 import type { Profile, Stats } from '@/types';
 import Card from '@/components/Card';
@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <main className='flex min-h-screen flex-col items-center justify-around p-24 glass'>
-      <SearchForm
+      <Search
         setIsLoading={setIsLoading}
         setProfile={setProfile}
         setStats={setStats}
