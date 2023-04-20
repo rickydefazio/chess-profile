@@ -81,7 +81,7 @@ export default function Search({
       <input
         type='text'
         placeholder='Chess.com Username'
-        className='input input-bordered input-primary w-full max-w-xs text-default'
+        className='text-default input-bordered input-primary input w-full max-w-xs'
         value={username}
         autoFocus
         onChange={handleTextChange}

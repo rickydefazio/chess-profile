@@ -12,7 +12,7 @@ export default function Card({ profile, stats }: CardProps) {
       <div className='flex justify-center pt-4'>
         <div>
           <h2 className='card-title'>{profile.name ?? profile.username}</h2>
-          <p className='text-primary text-center'>{profile.location}</p>
+          <p className='text-center text-primary'>{profile.location}</p>
         </div>
       </div>
 
@@ -23,13 +23,13 @@ export default function Card({ profile, stats }: CardProps) {
             width={250}
             height={500}
             alt={`Profile picture of ${profile.name ?? profile.username}`}
-            className='w-48 h-48 object-cover rounded-full'
+            className='h-48 w-48 rounded-full object-cover'
             priority
           />
         </figure>
       )}
       <div className='card-body items-center text-center'>
-        <div className='font-bold badge badge-secondary badge-outline animate-pulse px-5'>
+        <div className='badge-secondary badge-outline badge animate-pulse px-5 font-bold'>
           Rating: {Math.floor(stats.rating ?? 0)}
         </div>
         <div className='stats shadow'>
@@ -58,7 +58,7 @@ export default function Card({ profile, stats }: CardProps) {
             href={profile.url}
             target='_blank'
             rel='noopener noreferrer'
-            className='btn btn-primary'
+            className='btn-primary btn'
           >
             View Profile
           </a>

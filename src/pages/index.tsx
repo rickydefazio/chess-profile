@@ -10,7 +10,7 @@ export default function Home() {
   const [stats, setStats] = useState<Stats>();
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-around p-24 glass'>
+    <main className='glass flex min-h-screen flex-col items-center justify-around p-24'>
       <Search
         setIsLoading={setIsLoading}
         setProfile={setProfile}
@@ -25,7 +25,7 @@ export default function Home() {
       )}
 
       {!isLoading && notFound && (
-        <div className='alert bg-primary shadow-lg lg:w-1/2 justify-center'>
+        <div className='alert justify-center bg-primary shadow-lg lg:w-1/2'>
           No user found. Please try again. 🤞🏻
         </div>
       )}
