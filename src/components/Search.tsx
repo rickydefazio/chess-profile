@@ -22,7 +22,7 @@ export default function Search({
   const [username, setUsername] = useState('');
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+    setUsername(e.target.value.toLowerCase());
   };
 
   const storeDataInSessionStorage = (username: string, data: FetchResponse) => {
