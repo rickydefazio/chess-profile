@@ -25,7 +25,7 @@ export default function Home() {
       )}
 
       {!isLoading && notFound && (
-        <div className='alert justify-center bg-primary shadow-lg lg:w-1/2'>
+        <div className='alert justify-center bg-primary shadow-lg md:w-1/2'>
           No user found. Please try again. 🤞🏻
         </div>
       )}
