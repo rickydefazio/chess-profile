@@ -14,6 +14,12 @@ interface SearchProps {
   setNotFound: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const requestInit = {
+  headers: {
+    'x-api-key': process.env.NEXT_PUBLIC_API_KEY as string,
+  },
+};
+
 export default function Search({
   setProfile,
   setStats,
@@ -46,7 +52,8 @@ export default function Search({
       setStats(storedData.stats);
 
       const winStreakResponse = await fetch(
-        `/api/win-streak?username=${username}`
+        `/api/win-streak?username=${username}`,
+        requestInit
       );
       const winStreakData = await winStreakResponse.json();
       setWinStreak(winStreakData.winStreak);
@@ -101,8 +108,8 @@ export default function Search({
 
       if (!hasStoredData) {
         const [playerResult, winStreakResult] = await Promise.allSettled([
-          fetch(`/api/player?username=${username}`),
-          fetch(`/api/win-streak?username=${username}`),
+          fetch(`/api/player?username=${username}`, requestInit),
+          fetch(`/api/win-streak?username=${username}`, requestInit),
         ]);
 
         await handleApiResponse(playerResult, winStreakResult);

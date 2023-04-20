@@ -1,10 +1,8 @@
+import authMiddleware from '@/middlewares/authMiddleware';
 import getWinStreak from '@/utils/getWinStreak';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   let username = req.query?.username;
 
   if (!username || username.length === 0 || typeof username !== 'string') {
@@ -23,3 +21,5 @@ export default async function handler(
       .json({ error: `Error fetching win streak: ${errorMessage}` });
   }
 }
+
+export default authMiddleware(handler);
