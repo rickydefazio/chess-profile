@@ -5,10 +5,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { username } = req.query;
+  let username = req.query?.username;
 
-  if (!username || username.length === 0) {
-    res.status(400).json({ message: 'Username is required' });
+  if (!username || username.length === 0 || typeof username !== 'string') {
+    res.status(400).json({ error: 'Invalid or missing username parameter.' });
     return;
   }
 

@@ -6,6 +6,7 @@ import Card from '@/components/Card';
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const [winStreak, setWinStreak] = useState(0);
   const [profile, setProfile] = useState<Profile>();
   const [stats, setStats] = useState<Stats>();
 
@@ -16,12 +17,14 @@ export default function Home() {
         setProfile={setProfile}
         setStats={setStats}
         setNotFound={setNotFound}
+        setWinStreak={setWinStreak}
       />
 
       {isLoading ? (
         <progress className='progress w-56 bg-primary'></progress>
       ) : (
-        profile && stats && <Card profile={profile} stats={stats} />
+        profile &&
+        stats && <Card profile={profile} stats={stats} winStreak={winStreak} />
       )}
 
       {!isLoading && notFound && (

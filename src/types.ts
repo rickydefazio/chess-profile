@@ -15,3 +15,14 @@ export interface Stats {
 
   rating: number;
 }
+
+export interface Game {
+  white: Player;
+  black: Player;
+  [key: string]: any;
+}
+
+interface Player {
+  username: string;
+  result: string;
+}

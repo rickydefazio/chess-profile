@@ -4,9 +4,10 @@ import Image from 'next/image';
 interface CardProps {
   profile: Profile;
   stats: Stats;
+  winStreak: number;
 }
 
-export default function Card({ profile, stats }: CardProps) {
+export default function Card({ profile, stats, winStreak }: CardProps) {
   return (
     <div className='card w-96 bg-base-100 shadow-xl'>
       <div className='flex justify-center pt-4'>
@@ -29,8 +30,13 @@ export default function Card({ profile, stats }: CardProps) {
         </figure>
       )}
       <div className='card-body items-center text-center'>
-        <div className='badge-secondary badge-outline badge animate-pulse px-5 font-bold'>
-          Rating: {Math.floor(stats.rating ?? 0)}
+        <div className='flex w-full justify-around'>
+          <div className='badge-secondary badge-outline badge font-bold'>
+            Rating: {Math.floor(stats.rating ?? 0)}
+          </div>
+          <div className='badge-info badge-outline badge font-bold'>
+            Win Streak: {winStreak}
+          </div>
         </div>
         <div className='stats shadow'>
           <div className='stat'>
