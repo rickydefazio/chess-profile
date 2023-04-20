@@ -11,9 +11,9 @@ export default function Card({ profile, stats, winStreak }: CardProps) {
   return (
     <div className='card w-96 bg-base-100 shadow-xl'>
       <div className='flex justify-center pt-4'>
-        <div>
+        <div className='flex flex-col items-center'>
           <h2 className='card-title'>{profile.name ?? profile.username}</h2>
-          <p className='text-center text-primary'>{profile.location}</p>
+          <p className='text-primary'>{profile.location}</p>
         </div>
       </div>
 
