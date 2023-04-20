@@ -2,6 +2,7 @@ interface Stats {
   chess_rapid?: GameType;
   chess_blitz?: GameType;
   chess_bullet?: GameType;
+  chess_daily?: GameType;
 }
 
 interface GameType {
@@ -24,6 +25,7 @@ export function calculateRecords(stats: Stats) {
     'chess_rapid',
     'chess_blitz',
     'chess_bullet',
+    'chess_daily',
   ];
 
   let wins = 0;
@@ -50,16 +52,21 @@ function calculateRating(stats: Stats) {
     {
       type: 'chess_rapid',
       rating: stats.chess_rapid?.last.rating ?? null,
-      weight: 3,
+      weight: 4,
     },
     {
       type: 'chess_blitz',
       rating: stats.chess_blitz?.last.rating ?? null,
-      weight: 2,
+      weight: 3,
     },
     {
       type: 'chess_bullet',
       rating: stats.chess_bullet?.last.rating ?? null,
+      weight: 2,
+    },
+    {
+      type: 'chess_daily',
+      rating: stats.chess_daily?.last.rating ?? null,
       weight: 1,
     },
   ];
