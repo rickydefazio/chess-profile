@@ -1,5 +1,6 @@
 import authMiddleware from '@/middlewares/authMiddleware';
 import calculateStats from '@/utils/calculateStats';
+import fetchWithRetry from '@/utils/fetchWithRetry';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -12,8 +13,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const [profileResponse, statsResponse] = await Promise.allSettled([
-      fetch(`https://api.chess.com/pub/player/${username}`),
-      fetch(`https://api.chess.com/pub/player/${username}/stats`),
+      fetchWithRetry(`https://api.chess.com/pub/player/${username}`),
+      fetchWithRetry(`https://api.chess.com/pub/player/${username}/stats`),
     ]);
 
     const profileError =

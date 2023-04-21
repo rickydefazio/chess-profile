@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 import type { Game } from '@/types';
+import fetchWithRetry from './fetchWithRetry';
 
 async function getRecentGamesUntilLoss(username: string): Promise<Game[]> {
   const today = DateTime.now();
@@ -14,7 +15,7 @@ async function getRecentGamesUntilLoss(username: string): Promise<Game[]> {
     const month = dateRangeStart.month.toString().padStart(2, '0');
 
     const url = `https://api.chess.com/pub/player/${username}/games/${year}/${month}`;
-    const response = await fetch(url);
+    const response = await fetchWithRetry(url);
 
     if (response.ok) {
       const games = await response.json();
