@@ -37,7 +37,7 @@ export default function Search({
   }, []);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+    setUsername(e.target.value.trimStart().trimEnd());
   };
 
   const storeDataInLocalStorage = (username: string, data: FetchResponse) => {
@@ -132,7 +132,7 @@ export default function Search({
   return (
     <form
       onSubmit={handleSubmit}
-      className='flex flex-col gap-2 text-white sm:flex-row'
+      className='mb-4 flex flex-col gap-2 text-white sm:flex-row'
     >
       <div className='form-control'>
         <div className='input-group'>

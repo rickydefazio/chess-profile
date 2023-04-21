@@ -2,6 +2,7 @@ import Search from '@/components/Search';
 import { useState } from 'react';
 import type { Profile, Stats } from '@/types';
 import Card from '@/components/Card';
+import Header from '@/components/Header';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +12,11 @@ export default function Home() {
   const [stats, setStats] = useState<Stats>();
 
   return (
-    <main className='glass flex min-h-screen flex-col items-center justify-around p-24'>
+    <main className='glass flex min-h-screen flex-col items-center justify-center'>
+      <div className='hero-content text-center'>
+        <Header />
+      </div>
+
       <Search
         setIsLoading={setIsLoading}
         setProfile={setProfile}
