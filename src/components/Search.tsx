@@ -140,7 +140,7 @@ export default function Search({
             <input
               type='text'
               placeholder='Search...'
-              className='input-bordered input focus:outline-none'
+              className='input-bordered input rounded-r-none focus:outline-none'
               onChange={handleTextChange}
               value={username}
               autoFocus
