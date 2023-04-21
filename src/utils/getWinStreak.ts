@@ -21,9 +21,7 @@ async function getRecentGamesUntilLoss(username: string): Promise<Game[]> {
       const games = await response.json();
       for (const game of games.games.reverse()) {
         const playerColor =
-          game.white.username.toLowerCase() === username.toLowerCase()
-            ? 'white'
-            : 'black';
+          game.white.username.toLowerCase() === username ? 'white' : 'black';
         if (game[playerColor].result === 'win') {
           recentGames.push(game);
         } else {
