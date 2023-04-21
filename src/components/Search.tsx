@@ -1,5 +1,6 @@
 import type { Profile, Stats } from '@/types';
-import { useState } from 'react';
+import cleanUsername from '@/utils/cleanUsername';
+import { useEffect, useRef, useState } from 'react';
 
 interface FetchResponse {
   profile: Profile;
@@ -29,23 +30,27 @@ export default function Search({
 }: SearchProps) {
   const [username, setUsername] = useState('');
 
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    inputRef?.current?.focus();
+  }, []);
+
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value.toLowerCase());
+    setUsername(e.target.value);
   };
 
-  const storeDataInSessionStorage = (username: string, data: FetchResponse) => {
-    sessionStorage.setItem(`playerData_${username}`, JSON.stringify(data));
+  const storeDataInLocalStorage = (username: string, data: FetchResponse) => {
+    localStorage.setItem(`playerData_${username}`, JSON.stringify(data));
   };
 
-  const getDataFromSessionStorage = (
-    username: string
-  ): FetchResponse | null => {
-    const storedData = sessionStorage.getItem(`playerData_${username}`);
+  const getDataFromLocalStorage = (username: string): FetchResponse | null => {
+    const storedData = localStorage.getItem(`playerData_${username}`);
     return storedData ? JSON.parse(storedData) : null;
   };
 
   const handleStoredData = async (username: string) => {
-    const storedData = getDataFromSessionStorage(username);
+    const storedData = getDataFromLocalStorage(username);
 
     if (storedData) {
       setProfile(storedData.profile);
@@ -84,7 +89,7 @@ export default function Search({
     const data: FetchResponse = await playerResult.value.json();
     setProfile(data.profile);
     setStats(data.stats);
-    storeDataInSessionStorage(username, data);
+    storeDataInLocalStorage(username, data);
 
     const winStreakError =
       winStreakResult.status === 'rejected' || !winStreakResult.value.ok;
@@ -103,13 +108,15 @@ export default function Search({
     setIsLoading(true);
     setNotFound(false);
 
+    const cleanedUsername = cleanUsername(username);
+
     try {
-      const hasStoredData = await handleStoredData(username);
+      const hasStoredData = await handleStoredData(cleanedUsername);
 
       if (!hasStoredData) {
         const [playerResult, winStreakResult] = await Promise.allSettled([
-          fetch(`/api/player?username=${username}`, requestInit),
-          fetch(`/api/win-streak?username=${username}`, requestInit),
+          fetch(`/api/player?username=${cleanedUsername}`, requestInit),
+          fetch(`/api/win-streak?username=${cleanedUsername}`, requestInit),
         ]);
 
         await handleApiResponse(playerResult, winStreakResult);
@@ -125,16 +132,39 @@ export default function Search({
   return (
     <form
       onSubmit={handleSubmit}
-      className='flex-no-wrap flex flex-col sm:flex-row'
+      className='flex flex-col gap-2 text-white sm:flex-row'
     >
-      <input
-        type='text'
-        placeholder='Chess.com Username'
-        className='text-default input-bordered input-primary input w-full max-w-xs'
-        value={username}
-        autoFocus
-        onChange={handleTextChange}
-      />
+      <div className='form-control'>
+        <div className='input-group'>
+          <div className='tooltip tooltip-accent' data-tip='Chess.com Username'>
+            <input
+              type='text'
+              placeholder='Search...'
+              className='input-bordered input focus:outline-none'
+              onChange={handleTextChange}
+              value={username}
+              autoFocus
+              ref={inputRef}
+            />
+          </div>
+          <button className='btn-primary btn-square btn'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
     </form>
   );
 }

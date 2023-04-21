@@ -1,4 +1,5 @@
 import authMiddleware from '@/middlewares/authMiddleware';
+import cleanUsername from '@/utils/cleanUsername';
 import getWinStreak from '@/utils/getWinStreak';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -10,8 +11,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
+  const cleanedUsername = cleanUsername(username);
+
   try {
-    const winStreak = await getWinStreak(username);
+    const winStreak = await getWinStreak(cleanedUsername);
     res.status(200).json({ winStreak });
   } catch (error: unknown) {
     const errorMessage =
