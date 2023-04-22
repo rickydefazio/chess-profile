@@ -13,22 +13,23 @@ export default function Card({ profile, stats, winStreak }: CardProps) {
       <div className='flex justify-center pt-4'>
         <div className='flex flex-col items-center'>
           <h2 className='card-title'>{profile.name ?? profile.username}</h2>
-          <p className='text-primary'>{profile.location}</p>
+          <p className='text-primary'>
+            {profile.location ?? 'Location Unknown'}
+          </p>
         </div>
       </div>
 
-      {profile.avatar && (
-        <figure className='px-10 pt-10'>
-          <Image
-            src={profile.avatar}
-            width={250}
-            height={500}
-            alt={`Profile picture of ${profile.name ?? profile.username}`}
-            className='h-48 w-48 rounded-full object-cover'
-            priority
-          />
-        </figure>
-      )}
+      <figure className='px-10 pt-10'>
+        <Image
+          src={profile.avatar ?? '/../public/noImage.jpg'}
+          width={250}
+          height={500}
+          alt={`Profile picture of ${profile.name ?? profile.username}`}
+          className='h-48 w-48 rounded-full object-cover'
+          priority
+        />
+      </figure>
+
       <div className='card-body items-center text-center'>
         <div className='flex w-full justify-around'>
           <div className='badge-secondary badge-outline badge font-bold'>

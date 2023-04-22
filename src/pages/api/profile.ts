@@ -25,8 +25,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         getWinStreak(cleanedUsername),
       ]);
 
-    const profileError = profileResult.status === 'rejected';
-    const statsError = statsResult.status === 'rejected';
+    const profileError =
+      profileResult.status === 'rejected' || !profileResult.value.ok;
+    const statsError =
+      statsResult.status === 'rejected' || !statsResult.value.ok;
     const winStreakError = winStreakResult.status === 'rejected';
 
     if (profileError || statsError || winStreakError) {
