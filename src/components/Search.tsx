@@ -3,6 +3,7 @@ import cleanUsername from '@/utils/cleanUsername';
 import { useEffect, useRef, useState } from 'react';
 
 interface FetchResponse {
+  timestamp: number;
   profile: Profile;
   stats: Stats;
 }
@@ -40,8 +41,16 @@ export default function Search({
     setUsername(e.target.value.trimStart().trimEnd());
   };
 
-  const storeDataInLocalStorage = (username: string, data: FetchResponse) => {
-    localStorage.setItem(`playerData_${username}`, JSON.stringify(data));
+  const storeDataInLocalStorage = (
+    username: string,
+    data: FetchResponse,
+    timestamp: number
+  ) => {
+    const dataWithTimestamp = { ...data, timestamp };
+    localStorage.setItem(
+      `playerData_${username}`,
+      JSON.stringify(dataWithTimestamp)
+    );
   };
 
   const getDataFromLocalStorage = (username: string): FetchResponse | null => {
@@ -51,8 +60,9 @@ export default function Search({
 
   const handleStoredData = async (username: string) => {
     const storedData = getDataFromLocalStorage(username);
+    const fiveMinutesAgo = Date.now() - 1000 * 60 * 5;
 
-    if (storedData) {
+    if (storedData && storedData.timestamp > fiveMinutesAgo) {
       setProfile(storedData.profile);
       setStats(storedData.stats);
 
@@ -89,7 +99,9 @@ export default function Search({
     const data: FetchResponse = await playerResult.value.json();
     setProfile(data.profile);
     setStats(data.stats);
-    storeDataInLocalStorage(username, data);
+
+    const timestamp = Date.now();
+    storeDataInLocalStorage(username, data, timestamp);
 
     const winStreakError =
       winStreakResult.status === 'rejected' || !winStreakResult.value.ok;
