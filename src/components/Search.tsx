@@ -3,6 +3,7 @@ import cleanUsername from '@/utils/cleanUsername';
 import { useEffect, useRef, useState } from 'react';
 
 interface FetchResponse {
+  winStreak: number;
   timestamp: number;
   profile: Profile;
   stats: Stats;
@@ -18,7 +19,7 @@ interface SearchProps {
 
 const requestInit = {
   headers: {
-    'x-api-key': process.env.NEXT_PUBLIC_API_KEY as string,
+    'x-api-key': process.env.NEXT_PUBLIC_API_KEY || '',
   },
 };
 
@@ -34,7 +35,9 @@ export default function Search({
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    inputRef?.current?.focus();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, []);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,13 +51,13 @@ export default function Search({
   ) => {
     const dataWithTimestamp = { ...data, timestamp };
     localStorage.setItem(
-      `playerData_${username}`,
+      `profileData_${username}`,
       JSON.stringify(dataWithTimestamp)
     );
   };
 
   const getDataFromLocalStorage = (username: string): FetchResponse | null => {
-    const storedData = localStorage.getItem(`playerData_${username}`);
+    const storedData = localStorage.getItem(`profileData_${username}`);
     return storedData ? JSON.parse(storedData) : null;
   };
 
@@ -65,13 +68,7 @@ export default function Search({
     if (storedData && storedData.timestamp > fiveMinutesAgo) {
       setProfile(storedData.profile);
       setStats(storedData.stats);
-
-      const winStreakResponse = await fetch(
-        `/api/win-streak?username=${username}`,
-        requestInit
-      );
-      const winStreakData = await winStreakResponse.json();
-      setWinStreak(winStreakData.winStreak);
+      setWinStreak(storedData.winStreak);
 
       return true;
     }
@@ -79,40 +76,27 @@ export default function Search({
     return false;
   };
 
-  const handleApiResponse = async (
-    playerResult: PromiseSettledResult<Response>,
-    winStreakResult: PromiseSettledResult<Response>
-  ) => {
-    const playerError =
-      playerResult.status === 'rejected' || !playerResult.value.ok;
+  const handleApiResponse = async (profileResponse: Response) => {
+    const profileError = !profileResponse.ok;
 
-    if (playerError) {
+    if (profileError) {
       console.error('Error fetching data from the API');
 
       setProfile(undefined);
       setStats(undefined);
+      setWinStreak(0);
       setNotFound(true);
       setIsLoading(false);
       return;
     }
 
-    const data: FetchResponse = await playerResult.value.json();
+    const data: FetchResponse = await profileResponse.json();
     setProfile(data.profile);
     setStats(data.stats);
+    setWinStreak(data.winStreak);
 
     const timestamp = Date.now();
     storeDataInLocalStorage(username, data, timestamp);
-
-    const winStreakError =
-      winStreakResult.status === 'rejected' || !winStreakResult.value.ok;
-
-    if (winStreakError) {
-      console.error('Error fetching data from the API');
-      setWinStreak(0);
-    } else {
-      const winStreakData = await winStreakResult.value.json();
-      setWinStreak(winStreakData.winStreak);
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -126,12 +110,12 @@ export default function Search({
       const hasStoredData = await handleStoredData(cleanedUsername);
 
       if (!hasStoredData) {
-        const [playerResult, winStreakResult] = await Promise.allSettled([
-          fetch(`/api/player?username=${cleanedUsername}`, requestInit),
-          fetch(`/api/win-streak?username=${cleanedUsername}`, requestInit),
-        ]);
+        const profileResponse = await fetch(
+          `/api/profile?username=${cleanedUsername}`,
+          requestInit
+        );
 
-        await handleApiResponse(playerResult, winStreakResult);
+        await handleApiResponse(profileResponse);
       }
     } catch (e) {
       console.error(e);

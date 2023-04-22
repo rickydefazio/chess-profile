@@ -46,6 +46,11 @@ async function getRecentGamesUntilLoss(username: string): Promise<Game[]> {
 }
 
 export default async function getWinStreak(username: string): Promise<number> {
-  const games = await getRecentGamesUntilLoss(username);
-  return games.length;
+  try {
+    const games = await getRecentGamesUntilLoss(username);
+    return games.length;
+  } catch (error) {
+    console.error(`Error fetching win streak for user ${username}:`, error);
+    return 0;
+  }
 }
