@@ -1,3 +1,4 @@
+import defaultImage from '../../public/defaultImage.jpg';
 import type { Profile, Stats } from '@/types';
 import Image from 'next/image';
 
@@ -21,7 +22,7 @@ export default function Card({ profile, stats, winStreak }: CardProps) {
 
       <figure className='px-10 pt-10'>
         <Image
-          src={profile.avatar ?? '/../public/noImage.jpg'}
+          src={profile.avatar ?? defaultImage}
           width={250}
           height={500}
           alt={`Profile picture of ${profile.name ?? profile.username}`}
