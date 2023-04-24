@@ -1,6 +1,8 @@
+import { useEffect, useRef, useState } from 'react';
+import { DateTime } from 'luxon';
 import type { Profile, Stats } from '@/types';
 import cleanUsername from '@/utils/cleanUsername';
-import { useEffect, useRef, useState } from 'react';
+import within5Minutes from '@/utils/within5Minutes';
 
 interface FetchResponse {
   winStreak: number;
@@ -63,9 +65,8 @@ export default function Search({
 
   const handleStoredData = async (username: string) => {
     const storedData = getDataFromLocalStorage(username);
-    const fiveMinutesAgo = Date.now() - 1000 * 60 * 5;
 
-    if (storedData && storedData.timestamp > fiveMinutesAgo) {
+    if (storedData && within5Minutes(storedData.timestamp)) {
       setProfile(storedData.profile);
       setStats(storedData.stats);
       setWinStreak(storedData.winStreak);
@@ -95,7 +96,7 @@ export default function Search({
     setStats(data.stats);
     setWinStreak(data.winStreak);
 
-    const timestamp = Date.now();
+    const timestamp = DateTime.now().toSeconds();
     storeDataInLocalStorage(username, data, timestamp);
   };
 
