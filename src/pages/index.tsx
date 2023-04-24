@@ -26,7 +26,10 @@ export default function Home() {
       />
 
       {isLoading ? (
-        <progress className='progress w-56 bg-primary'></progress>
+        <>
+          <progress className='progress w-56 bg-primary'></progress>
+          <span className='text-info'>Loading...</span>
+        </>
       ) : (
         profile &&
         stats && <Card profile={profile} stats={stats} winStreak={winStreak} />
