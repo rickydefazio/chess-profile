@@ -48,25 +48,27 @@ export default function Search({
     setUsername(e.target.value.trimStart().trimEnd());
   };
 
-  const storeDataInLocalStorage = (
+  const storeDataInSessionStorage = (
     username: string,
     data: FetchResponse,
     timestamp: number
   ) => {
     const dataWithTimestamp = { ...data, timestamp };
-    localStorage.setItem(
+    sessionStorage.setItem(
       `profileData_${username}`,
       JSON.stringify(dataWithTimestamp)
     );
   };
 
-  const getDataFromLocalStorage = (username: string): FetchResponse | null => {
-    const storedData = localStorage.getItem(`profileData_${username}`);
+  const getDataFromSessionStorage = (
+    username: string
+  ): FetchResponse | null => {
+    const storedData = sessionStorage.getItem(`profileData_${username}`);
     return storedData ? JSON.parse(storedData) : null;
   };
 
   const handleStoredData = async (username: string) => {
-    const storedData = getDataFromLocalStorage(username);
+    const storedData = getDataFromSessionStorage(username);
 
     if (storedData && within5Minutes(storedData.timestamp)) {
       setProfile(storedData.profile);
@@ -102,7 +104,7 @@ export default function Search({
     setWinStreak(data.winStreak);
 
     const timestamp = DateTime.now().toSeconds();
-    storeDataInLocalStorage(username, data, timestamp);
+    storeDataInSessionStorage(username, data, timestamp);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

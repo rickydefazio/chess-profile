@@ -19,7 +19,7 @@ export default function Card({
   const {
     rating,
     records: { wins, draws, losses },
-  } = stats.calculatedStats ?? {};
+  } = stats.calculatedStats;
 
   return (
     <div className='card w-96 bg-base-100 shadow-xl'>
