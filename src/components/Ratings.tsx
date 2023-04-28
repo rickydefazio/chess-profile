@@ -4,11 +4,11 @@ import type { Stats, GameType } from '@/types';
 import formatGameTypes from '@/utils/formatGameTypes';
 import isGameType from '@/utils/isGameType';
 
-interface RatingsComponentProps {
+interface RatingsProps {
   data: Stats;
 }
 
-export default function RatingsComponent({ data }: RatingsComponentProps) {
+export default function Ratings({ data }: RatingsProps) {
   function renderRatings(data: Stats) {
     return Object.entries(data)
       .filter(([key]) => isGameType(key) && data[key]?.last?.rating)
