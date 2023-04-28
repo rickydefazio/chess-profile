@@ -1,4 +1,4 @@
-import { GameType } from "@/types";
+import type { GameType } from '@/types';
 
 export default function isGameType(key: string): key is GameType {
   return (

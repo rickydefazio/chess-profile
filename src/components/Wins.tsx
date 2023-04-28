@@ -1,4 +1,4 @@
-import { GameType, Stats } from '@/types';
+import type { GameType, Stats } from '@/types';
 import formatGameTypes from '@/utils/formatGameTypes';
 import isGameType from '@/utils/isGameType';
 

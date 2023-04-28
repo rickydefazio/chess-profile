@@ -1,7 +1,6 @@
 // RatingsComponent.tsx
 import React from 'react';
-import { Stats } from '@/types';
-import { GameType } from '@/types';
+import type { Stats, GameType } from '@/types';
 import formatGameTypes from '@/utils/formatGameTypes';
 import isGameType from '@/utils/isGameType';
 

@@ -1,7 +1,7 @@
-import { GameTypes, Stats } from '@/types';
+import type { GameType, Stats } from '@/types';
 
 export function calculateRecords(stats: Stats) {
-  const gameTypeKeys: GameTypes[] = [
+  const gameTypeKeys: GameType[] = [
     'chess_rapid',
     'chess_blitz',
     'chess_bullet',

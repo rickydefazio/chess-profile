@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stats, IWinStreak } from '@/types';
+import type { Stats, IWinStreak } from '@/types';
 import ModalContent from './ModalContent';
 
 interface ModalProps {

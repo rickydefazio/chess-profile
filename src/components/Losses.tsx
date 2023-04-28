@@ -1,5 +1,5 @@
 import isGameType from '@/utils/isGameType';
-import { GameType, Stats } from '@/types';
+import type { GameType, Stats } from '@/types';
 import formatGameTypes from '@/utils/formatGameTypes';
 
 interface LossesProps {
