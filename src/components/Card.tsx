@@ -1,16 +1,22 @@
 import defaultImage from '../../public/defaultImage.jpg';
-import type { Profile, Stats } from '@/types';
+import type { Profile, StatsWithCalculated, IWinStreak } from '@/types';
 import Image from 'next/image';
 
 interface CardProps {
   profile: Profile;
-  stats: Stats;
-  winStreak: number;
+  stats: StatsWithCalculated;
+  winStreak: IWinStreak;
+  setModalContent: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export default function Card({ profile, stats, winStreak }: CardProps) {
+export default function Card({
+  profile,
+  stats,
+  winStreak,
+  setModalContent,
+}: CardProps) {
   const { name, username, location, avatar, url } = profile;
-  const { rating, records } = stats;
+  const { rating, records } = stats?.calculatedStats;
   const { wins, draws, losses } = records;
 
   return (
@@ -33,25 +39,72 @@ export default function Card({ profile, stats, winStreak }: CardProps) {
       </figure>
       <div className='card-body items-center text-center'>
         <div className='flex w-full justify-around'>
-          <div className='badge-secondary badge-outline badge font-bold'>
-            Rating: {Math.floor(rating ?? 0)}
-          </div>
-          <div className='badge-info badge-outline badge font-bold'>
-            Win Streak: {winStreak}
-          </div>
+          <label
+            htmlFor='my-modal-4'
+            className='cursor-pointer'
+            onClick={() => setModalContent({ title: 'Ratings', data: stats })}
+          >
+            <div className='badge-secondary badge-outline badge font-bold'>
+              Avg Rating: {Math.floor(rating ?? 0)}
+            </div>
+          </label>
+          <label
+            htmlFor='my-modal-4'
+            className='cursor-pointer'
+            onClick={() =>
+              setModalContent({ title: 'Win Streak', data: winStreak })
+            }
+          >
+            <div className='badge-info badge-outline badge font-bold'>
+              Win Streak: {winStreak.current}
+            </div>
+          </label>
         </div>
         <div className='stats shadow'>
           <div className='stat'>
-            <div className='stat-title text-green-500'>Wins</div>
-            <div className='stat-value text-2xl'>{wins ?? 0}</div>
+            <label
+              htmlFor='my-modal-4'
+              className='cursor-pointer'
+              onClick={() =>
+                setModalContent({
+                  title: 'Wins',
+                  data: stats,
+                })
+              }
+            >
+              <div className='stat-title text-green-500'>Wins</div>
+              <div className='stat-value text-2xl'>{wins ?? 0}</div>
+            </label>
           </div>
           <div className='stat'>
-            <div className='stat-title'>Draws</div>
-            <div className='stat-value text-2xl'>{draws ?? 0}</div>
+            <label
+              htmlFor='my-modal-4'
+              className='cursor-pointer'
+              onClick={() =>
+                setModalContent({
+                  title: 'Draws',
+                  data: stats,
+                })
+              }
+            >
+              <div className='stat-title'>Draws</div>
+              <div className='stat-value text-2xl'>{draws ?? 0}</div>
+            </label>
           </div>
           <div className='stat'>
-            <div className='stat-title text-red-500'>Losses</div>
-            <div className='stat-value text-2xl'>{losses ?? 0}</div>
+            <label
+              htmlFor='my-modal-4'
+              className='cursor-pointer'
+              onClick={() =>
+                setModalContent({
+                  title: 'Losses',
+                  data: stats,
+                })
+              }
+            >
+              <div className='stat-title text-red-500'>Losses</div>
+              <div className='stat-value text-2xl'>{losses ?? 0}</div>
+            </label>
           </div>
         </div>
         <div className='card-actions'>

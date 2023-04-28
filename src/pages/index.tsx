@@ -1,18 +1,28 @@
 import Search from '@/components/Search';
 import { useState } from 'react';
-import type { Profile, Stats } from '@/types';
+import type { Profile, StatsWithCalculated, IWinStreak } from '@/types';
 import Card from '@/components/Card';
 import Header from '@/components/Header';
+import Modal from '@/components/Modal';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  const [winStreak, setWinStreak] = useState(0);
+  const [winStreak, setWinStreak] = useState<IWinStreak>({
+    current: 0,
+    since: null,
+  });
   const [profile, setProfile] = useState<Profile>();
-  const [stats, setStats] = useState<Stats>();
+  const [stats, setStats] = useState<StatsWithCalculated>();
+  const [modalContent, setModalContent] = useState<{
+    title: string;
+    data: any;
+  }>({ title: '', data: null });
 
   return (
     <main className='glass flex min-h-screen flex-col items-center justify-center'>
+      <Modal content={modalContent} />
+
       <div className='hero-content text-center'>
         <Header />
       </div>
@@ -28,11 +38,18 @@ export default function Home() {
       {isLoading ? (
         <>
           <progress className='progress w-56 bg-primary'></progress>
-          <span className='text-info'>Loading...</span>
+          <span className='animate-pulse text-info'>Loading...</span>
         </>
       ) : (
         profile &&
-        stats && <Card profile={profile} stats={stats} winStreak={winStreak} />
+        stats && (
+          <Card
+            profile={profile}
+            stats={stats}
+            winStreak={winStreak}
+            setModalContent={setModalContent}
+          />
+        )
       )}
 
       {!isLoading && notFound && (

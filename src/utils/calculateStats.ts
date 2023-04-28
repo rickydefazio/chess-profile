@@ -1,24 +1,4 @@
-interface Stats {
-  chess_rapid?: GameType;
-  chess_blitz?: GameType;
-  chess_bullet?: GameType;
-  chess_daily?: GameType;
-}
-
-interface GameType {
-  last: {
-    rating: number;
-  };
-  record: Record;
-}
-
-interface Record {
-  win: number;
-  loss: number;
-  draw: number;
-}
-
-type GameTypes = keyof Stats;
+import { GameTypes, Stats } from '@/types';
 
 export function calculateRecords(stats: Stats) {
   const gameTypeKeys: GameTypes[] = [

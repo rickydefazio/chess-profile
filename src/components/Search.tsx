@@ -1,20 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { DateTime } from 'luxon';
-import type { Profile, Stats } from '@/types';
+import type { Profile, StatsWithCalculated, IWinStreak } from '@/types';
 import cleanUsername from '@/utils/cleanUsername';
 import within5Minutes from '@/utils/within5Minutes';
 
 interface FetchResponse {
-  winStreak: number;
+  winStreak: IWinStreak;
   timestamp: number;
   profile: Profile;
-  stats: Stats;
+  stats: StatsWithCalculated;
 }
 
 interface SearchProps {
   setProfile: React.Dispatch<React.SetStateAction<Profile | undefined>>;
-  setStats: React.Dispatch<React.SetStateAction<Stats | undefined>>;
-  setWinStreak: React.Dispatch<React.SetStateAction<number>>;
+  setStats: React.Dispatch<
+    React.SetStateAction<StatsWithCalculated | undefined>
+  >;
+  setWinStreak: React.Dispatch<React.SetStateAction<IWinStreak>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setNotFound: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -85,7 +87,10 @@ export default function Search({
 
       setProfile(undefined);
       setStats(undefined);
-      setWinStreak(0);
+      setWinStreak({
+        current: 0,
+        since: null,
+      });
       setNotFound(true);
       setIsLoading(false);
       return;

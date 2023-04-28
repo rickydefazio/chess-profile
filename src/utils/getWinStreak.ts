@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import type { Game } from '@/types';
+import type { Game, IWinStreak } from '@/types';
 import fetchWithRetry from './fetchWithRetry';
 
 async function getRecentGamesUntilLoss(username: string): Promise<Game[]> {
@@ -7,7 +7,7 @@ async function getRecentGamesUntilLoss(username: string): Promise<Game[]> {
   let monthsToCheck = 0;
   const recentGames: Game[] = [];
   let mostRecentLossFound = false;
-  const MAX_MONTHS_TO_CHECK = 6;
+  const MAX_MONTHS_TO_CHECK = 3;
 
   while (!mostRecentLossFound) {
     const dateRangeStart = today.minus({ months: monthsToCheck });
@@ -45,12 +45,20 @@ async function getRecentGamesUntilLoss(username: string): Promise<Game[]> {
   return recentGames;
 }
 
-export default async function getWinStreak(username: string): Promise<number> {
+export default async function getWinStreak(
+  username: string
+): Promise<IWinStreak> {
   try {
     const games = await getRecentGamesUntilLoss(username);
-    return games.length;
+    return {
+      current: games.length,
+      since: games ? games.at(-1)?.end_time : null,
+    };
   } catch (error) {
     console.error(`Error fetching win streak for user ${username}:`, error);
-    return 0;
+    return {
+      current: 0,
+      since: null,
+    };
   }
 }

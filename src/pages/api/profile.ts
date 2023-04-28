@@ -16,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const cleanedUsername = cleanUsername(username);
 
   try {
-    const [profileResult, statsResult, winStreakResult] =
+    const [playerResult, statsResult, winStreakResult] =
       await Promise.allSettled([
         fetchWithRetry(`https://api.chess.com/pub/player/${cleanedUsername}`),
         fetchWithRetry(
@@ -25,21 +25,26 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         getWinStreak(cleanedUsername),
       ]);
 
-    const profileError =
-      profileResult.status === 'rejected' || !profileResult.value.ok;
+    const playerError =
+      playerResult.status === 'rejected' || !playerResult.value.ok;
     const statsError =
       statsResult.status === 'rejected' || !statsResult.value.ok;
     const winStreakError = winStreakResult.status === 'rejected';
 
-    if (profileError || statsError || winStreakError) {
+    if (playerError || statsError || winStreakError) {
       res.status(400).json({ message: 'Error fetching data from the API' });
       return;
     }
 
-    const profile = await profileResult.value.json();
-    const stats = calculateStats(await statsResult.value.json());
+    const profile = await playerResult.value.json();
+    const stats = await statsResult.value.json();
+    const calculatedStats = calculateStats(stats);
 
-    res.status(200).json({ profile, stats, winStreak: winStreakResult.value });
+    res.status(200).json({
+      profile,
+      stats: { ...stats, calculatedStats },
+      winStreak: winStreakResult.value,
+    });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
