@@ -16,7 +16,8 @@ export default function Card({
   setModalContent,
 }: CardProps) {
   const { name, username, location, avatar, url } = profile;
-  const { rating, records } = stats?.calculatedStats;
+  const { calculatedStats } = stats;
+  const { rating, records } = calculatedStats;
   const { wins, draws, losses } = records;
 
   return (
