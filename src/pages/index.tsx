@@ -13,7 +13,10 @@ export default function Home() {
     since: null,
   });
   const [profile, setProfile] = useState<Profile>();
-  const [stats, setStats] = useState<StatsWithCalculated>();
+  const [stats, setStats] = useState<StatsWithCalculated>(
+
+  );
+
   const [modalContent, setModalContent] = useState<{
     title: string;
     data: any;

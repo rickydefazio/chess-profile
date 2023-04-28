@@ -16,9 +16,10 @@ export default function Card({
   setModalContent,
 }: CardProps) {
   const { name, username, location, avatar, url } = profile;
-  const { calculatedStats } = stats;
-  const { rating, records } = calculatedStats;
-  const { wins, draws, losses } = records;
+  const {
+    rating,
+    records: { wins, draws, losses },
+  } = stats.calculatedStats ?? {};
 
   return (
     <div className='card w-96 bg-base-100 shadow-xl'>

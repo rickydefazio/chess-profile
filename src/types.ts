@@ -27,17 +27,6 @@ export interface CalculatedStats {
   rating: number;
 }
 
-export interface Game {
-  white: Player;
-  black: Player;
-  [key: string]: any;
-}
-
-interface Player {
-  username: string;
-  result: string;
-}
-
 export interface GameMode {
   last: {
     rating: number;
@@ -49,6 +38,17 @@ interface Record {
   win: number;
   loss: number;
   draw: number;
+}
+
+export interface Game {
+  white: Player;
+  black: Player;
+  [key: string]: any;
+}
+
+interface Player {
+  username: string;
+  result: string;
 }
 
 export type GameType = keyof Stats;
