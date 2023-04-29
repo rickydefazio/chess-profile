@@ -12,7 +12,7 @@ export default function Ratings({ data }: RatingsProps) {
     return Object.entries(data)
       .filter(([key]) => isGameType(key) && data[key]?.last?.rating)
       .map(([key, value]) => (
-        <tr key={key}>
+        <tr className='text-center' key={key}>
           <td>{formatGameTypes(key as GameType)}</td>
           <td>
             <span className='text-primary'>{value.last.rating}</span>
