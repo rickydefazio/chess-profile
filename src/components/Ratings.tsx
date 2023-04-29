@@ -12,20 +12,32 @@ export default function Ratings({ data }: RatingsProps) {
     return Object.entries(data)
       .filter(([key]) => isGameType(key) && data[key]?.last?.rating)
       .map(([key, value]) => (
-        <p key={key}>
-          <strong>{formatGameTypes(key as GameType)}: </strong>{' '}
-          <span className='text-primary'>{value.last.rating}</span>
-        </p>
+        <tr key={key}>
+          <td>{formatGameTypes(key as GameType)}</td>
+          <td>
+            <span className='text-primary'>{value.last.rating}</span>
+          </td>
+        </tr>
       ));
   }
 
   return (
     <>
-      <p className='text-accent'>
+      <p className='pb-2 text-center text-accent'>
         The <strong>average rating</strong> is generated using a weighted
         average calculation of the following:
       </p>
-      <div className='pt-2'>{renderRatings(data)}</div>
+      <div className='overflow-x-auto'>
+        <table className='table-zebra table w-full'>
+          <thead>
+            <tr className='text-center text-secondary'>
+              <th className='text-base'>Type</th>
+              <th className='text-base'>Games</th>
+            </tr>
+          </thead>
+          <tbody>{renderRatings(data)}</tbody>
+        </table>
+      </div>
     </>
   );
 }

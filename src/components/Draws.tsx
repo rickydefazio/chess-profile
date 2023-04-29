@@ -10,11 +10,25 @@ export default function Draws({ data }: DrawsProps) {
     return Object.entries(data)
       .filter(([key]) => isGameType(key) && data[key]?.record?.draw)
       .map(([key, value]) => (
-        <p key={key}>
-          <strong>{formatGameTypes(key as GameType)}: </strong>{' '}
-          <span className='text-primary'>{value.record.draw}</span>
-        </p>
+        <tr key={key} className='text-center'>
+          <td>{formatGameTypes(key as GameType)}</td>
+          <td>
+            <span className='text-primary'>{value.record.draw}</span>
+          </td>
+        </tr>
       ));
   }
-  return <>{renderDraws(data)}</>;
+  return (
+    <div className='overflow-x-auto'>
+      <table className='table-zebra table w-full'>
+        <thead>
+          <tr className='text-center text-secondary'>
+            <th className='text-base'>Type</th>
+            <th className='text-base'>Games</th>
+          </tr>
+        </thead>
+        <tbody>{renderDraws(data)}</tbody>
+      </table>
+    </div>
+  );
 }

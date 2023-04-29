@@ -15,7 +15,7 @@ export default function Modal({ content }: ModalProps) {
       <input type='checkbox' id='my-modal-4' className='modal-toggle' />
       <label htmlFor='my-modal-4' className='modal cursor-pointer'>
         <label className='modal-box relative w-80 max-w-sm' htmlFor=''>
-          <h3 className='text-center text-lg font-bold text-info'>
+          <h3 className='pb-2 text-center text-2xl font-bold text-info'>
             {content.title}
           </h3>
           <ModalContent title={content.title} data={content.data} />

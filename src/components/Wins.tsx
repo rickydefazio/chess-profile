@@ -11,11 +11,27 @@ export default function Wins({ data }: WinsProps) {
     return Object.entries(data)
       .filter(([key]) => isGameType(key) && data[key]?.record?.win)
       .map(([key, value]) => (
-        <p key={key}>
-          <strong>{formatGameTypes(key as GameType)}: </strong>{' '}
-          <span className='text-primary'>{value.record.win}</span>
-        </p>
+        <tr className='text-center' key={key}>
+          <td>{formatGameTypes(key as GameType)}</td>
+          <td>
+            <span className='text-primary'>{value.record.win}</span>
+          </td>
+        </tr>
       ));
   }
-  return <>{renderWins(data)}</>;
+  return (
+    <>
+      <div className='overflow-x-auto'>
+        <table className='table-zebra table w-full'>
+          <thead>
+            <tr className='text-center text-secondary'>
+              <th className='text-base'>Type</th>
+              <th className='text-base'>Games</th>
+            </tr>
+          </thead>
+          <tbody>{renderWins(data)}</tbody>
+        </table>
+      </div>
+    </>
+  );
 }

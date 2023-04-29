@@ -18,12 +18,11 @@ export default function WinStreak({ data }: WinStreakProps) {
 
   return (
     <>
-      <p>
-        <strong>Games Won:</strong>{' '}
-        <span className='text-primary'>{current}</span>
+      <p className='text-center'>
+        <strong>Games:</strong> <span className='text-primary'>{current}</span>
       </p>
       {since && (
-        <p>
+        <p className='text-center'>
           <strong>Since:</strong>{' '}
           <span className='text-primary'>{`${formattedDate} at ${formattedTime}`}</span>
         </p>

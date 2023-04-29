@@ -11,12 +11,28 @@ export default function Losses({ data }: LossesProps) {
     return Object.entries(data)
       .filter(([key]) => isGameType(key) && data[key]?.record?.loss)
       .map(([key, value]) => (
-        <p key={key}>
-          <strong>{formatGameTypes(key as GameType)}: </strong>{' '}
-          <span className='text-primary'>{value.record.loss}</span>
-        </p>
+        <tr className='text-center' key={key}>
+          <td>{formatGameTypes(key as GameType)}</td>
+          <td>
+            <span className='text-primary'>{value.record.loss}</span>
+          </td>
+        </tr>
       ));
   }
 
-  return <>{renderLosses(data)}</>;
+  return (
+    <>
+      <div className='overflow-x-auto'>
+        <table className='table-zebra table w-full'>
+          <thead>
+            <tr className='text-center text-secondary'>
+              <th className='text-base'>Type</th>
+              <th className='text-base'>Games</th>
+            </tr>
+          </thead>
+          <tbody>{renderLosses(data)}</tbody>
+        </table>
+      </div>
+    </>
+  );
 }
