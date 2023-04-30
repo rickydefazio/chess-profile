@@ -32,7 +32,7 @@ export default function Ratings({ data }: RatingsProps) {
           <thead>
             <tr className='text-center text-secondary'>
               <th className='text-base'>Type</th>
-              <th className='text-base'>Games</th>
+              <th className='text-base'>Rating</th>
             </tr>
           </thead>
           <tbody>{renderRatings(data)}</tbody>
