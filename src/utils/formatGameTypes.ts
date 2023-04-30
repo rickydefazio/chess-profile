@@ -6,8 +6,6 @@ export default function formatGameTypes(types: string) {
       return 'Bullet';
     case 'chess_rapid':
       return 'Rapid';
-    case 'chess_daily':
-      return 'Daily';
     default:
       break;
   }

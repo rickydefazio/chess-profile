@@ -5,7 +5,6 @@ export function calculateRecords(stats: Stats) {
     'chess_rapid',
     'chess_blitz',
     'chess_bullet',
-    'chess_daily',
   ];
 
   let wins = 0;
@@ -24,7 +23,6 @@ export function calculateRecords(stats: Stats) {
 interface Rating {
   type: string;
   rating: number | null;
-  weight: number;
 }
 
 function calculateRating(stats: Stats) {
@@ -32,39 +30,30 @@ function calculateRating(stats: Stats) {
     {
       type: 'chess_rapid',
       rating: stats.chess_rapid?.last.rating ?? null,
-      weight: 4,
     },
     {
       type: 'chess_blitz',
       rating: stats.chess_blitz?.last.rating ?? null,
-      weight: 3,
     },
     {
       type: 'chess_bullet',
       rating: stats.chess_bullet?.last.rating ?? null,
-      weight: 2,
-    },
-    {
-      type: 'chess_daily',
-      rating: stats.chess_daily?.last.rating ?? null,
-      weight: 1,
     },
   ];
 
-  const { sumWeightedRatings, totalWeight } = ratings.reduce(
+  const { sumRatings, totalCount } = ratings.reduce(
     (acc, cur) => {
       if (cur.rating) {
-        acc.sumWeightedRatings += cur.rating * cur.weight;
-        acc.totalWeight += cur.weight;
+        acc.sumRatings += cur.rating;
+        acc.totalCount += 1;
       }
       return acc;
     },
-    { sumWeightedRatings: 0, totalWeight: 0 }
+    { sumRatings: 0, totalCount: 0 }
   );
 
-  const weightedAvgRating =
-    totalWeight > 0 ? Math.round(sumWeightedRatings / totalWeight) : 0;
-  return weightedAvgRating;
+  const avgRating = totalCount > 0 ? Math.round(sumRatings / totalCount) : 0;
+  return avgRating;
 }
 
 export default function calculateStats(stats: Stats) {

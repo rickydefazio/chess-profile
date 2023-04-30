@@ -24,8 +24,8 @@ export default function Ratings({ data }: RatingsProps) {
   return (
     <>
       <p className='pb-2 text-center text-accent'>
-        The <strong>average rating</strong> is generated using a weighted
-        average calculation of the following:
+        The <strong>avg rating</strong> is generated using an average of the
+        following:
       </p>
       <div className='overflow-x-auto'>
         <table className='table-zebra table w-full'>
