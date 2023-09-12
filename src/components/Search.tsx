@@ -23,8 +23,8 @@ interface SearchProps {
 
 const requestInit = {
   headers: {
-    'x-api-key': process.env.NEXT_PUBLIC_API_KEY || '',
-  },
+    'x-api-key': process.env.NEXT_PUBLIC_API_KEY || ''
+  }
 };
 
 export default function Search({
@@ -32,7 +32,7 @@ export default function Search({
   setStats,
   setIsLoading,
   setNotFound,
-  setWinStreak,
+  setWinStreak
 }: SearchProps) {
   const [username, setUsername] = useState('');
 
@@ -91,7 +91,7 @@ export default function Search({
       setStats(undefined);
       setWinStreak({
         current: 0,
-        since: null,
+        since: null
       });
       setNotFound(true);
       setIsLoading(false);
@@ -149,9 +149,10 @@ export default function Search({
               value={username}
               autoFocus
               ref={inputRef}
+              aria-label='Search'
             />
           </div>
-          <button className='btn-primary btn-square btn'>
+          <button id='searchButton' className='btn-primary btn-square btn'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               className='h-6 w-6'
