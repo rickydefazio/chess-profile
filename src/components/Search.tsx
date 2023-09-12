@@ -152,7 +152,11 @@ export default function Search({
               aria-label='Search'
             />
           </div>
-          <button id='searchButton' className='btn-primary btn-square btn'>
+          <button
+            id='searchButton'
+            aria-label='Search'
+            className='btn-primary btn-square btn'
+          >
             <svg
               xmlns='http://www.w3.org/2000/svg'
               className='h-6 w-6'
