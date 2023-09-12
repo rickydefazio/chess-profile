@@ -12,9 +12,22 @@ interface ModalProps {
 export default function Modal({ content }: ModalProps) {
   return (
     <>
-      <input type='checkbox' id='my-modal-4' className='modal-toggle' />
-      <label htmlFor='my-modal-4' className='modal cursor-pointer'>
-        <label className='modal-box relative w-80 max-w-sm' htmlFor=''>
+      <input
+        type='checkbox'
+        id='my-modal-4'
+        className='modal-toggle'
+        aria-label='Open Modal'
+      />
+      <label
+        htmlFor='my-modal-4'
+        className='modal cursor-pointer'
+        aria-label='Open Modal'
+      >
+        <label
+          className='modal-box relative w-80 max-w-sm'
+          htmlFor='my-modal-4'
+          aria-labelledby='modal-title'
+        >
           <h3 className='pb-2 text-center text-2xl font-bold text-info'>
             {content.title}
           </h3>
