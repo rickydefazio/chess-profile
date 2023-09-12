@@ -140,9 +140,13 @@ export default function Search({
     >
       <div className='form-control'>
         <div className='input-group'>
+          <label htmlFor='searchInput' className='hidden'>
+            Chess.com Username
+          </label>
           <div className='tooltip tooltip-accent' data-tip='Chess.com Username'>
             <input
               type='text'
+              id='searchInput'
               placeholder='Search...'
               className='input-bordered input rounded-r-none focus:outline-none'
               onChange={handleTextChange}
