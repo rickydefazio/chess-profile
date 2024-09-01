@@ -24,7 +24,7 @@ export default function Modal({ content }: ModalProps) {
         aria-label='Open Modal'
       >
         <label
-          className='modal-box relative w-80 max-w-sm'
+          className='modal-box relative w-80 max-w-sm border-white border-2'
           htmlFor='my-modal-4'
           aria-labelledby='modal-title'
         >
