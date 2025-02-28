@@ -71,8 +71,7 @@ export default function Card({
     <div ref={cardRef} className='card w-96 bg-base-100 shadow-xl relative'>
       <button
         onClick={handleScreenshot}
-        className='absolute right-2 top-2 px-2.5
- hover:bg-base-200 rounded-full transition-colors'
+        className='absolute right-2 top-2 px-2.5 hover:bg-base-200 rounded-full transition-colors hidden sm:block'
         title='Copy card as image'
       >
         📸
