@@ -1,6 +1,7 @@
 import defaultImage from '../../public/defaultImage.jpg';
 import type { Profile, StatsWithCalculated, IWinStreak } from '@/types';
 import Image from 'next/image';
+import { DateTime } from 'luxon';
 
 interface CardProps {
   profile: Profile;
@@ -13,13 +14,20 @@ export default function Card({
   profile,
   stats,
   winStreak,
-  setModalContent,
+  setModalContent
 }: CardProps) {
-  const { name, username, location, avatar, url } = profile;
+  const { name, username, location, avatar, url, last_online } = profile;
   const {
     rating,
-    records: { wins, draws, losses },
+    records: { wins, draws, losses }
   } = stats.calculatedStats;
+
+  const getLastOnlineDisplay = () => {
+    if (!last_online) return 'Never';
+    return DateTime.fromSeconds(last_online)
+      .setZone('local')
+      .toFormat("MMMM d, yyyy 'at' h:mm a");
+  };
 
   return (
     <div className='card w-96 bg-base-100 shadow-xl'>
@@ -27,6 +35,12 @@ export default function Card({
         <div className='flex flex-col items-center'>
           <h2 className='card-title'>{name ?? username}</h2>
           <p className='text-primary'>{location ?? 'Location Unknown'}</p>
+          <p
+            className='text-sm text-yellow-50 text-opacity-60
+'
+          >
+            📆 {getLastOnlineDisplay()}
+          </p>
         </div>
       </div>
       <figure className='px-10 pt-10'>
@@ -70,7 +84,7 @@ export default function Card({
               onClick={() =>
                 setModalContent({
                   title: 'Wins',
-                  data: stats,
+                  data: stats
                 })
               }
             >
@@ -85,7 +99,7 @@ export default function Card({
               onClick={() =>
                 setModalContent({
                   title: 'Draws',
-                  data: stats,
+                  data: stats
                 })
               }
             >
@@ -100,7 +114,7 @@ export default function Card({
               onClick={() =>
                 setModalContent({
                   title: 'Losses',
-                  data: stats,
+                  data: stats
                 })
               }
             >

@@ -4,6 +4,7 @@ export interface Profile {
   username: string;
   avatar?: string;
   location?: string;
+  last_online?: number;
 }
 
 export interface Stats {

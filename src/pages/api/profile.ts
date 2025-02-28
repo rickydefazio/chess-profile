@@ -22,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         fetchWithRetry(
           `https://api.chess.com/pub/player/${cleanedUsername}/stats`
         ),
-        getWinStreak(cleanedUsername),
+        getWinStreak(cleanedUsername)
       ]);
 
     const playerError =
@@ -43,7 +43,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(200).json({
       profile,
       stats: { ...stats, calculatedStats },
-      winStreak: winStreakResult.value,
+      winStreak: winStreakResult.value
     });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
