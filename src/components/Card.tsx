@@ -3,7 +3,7 @@ import type { Profile, StatsWithCalculated, IWinStreak } from '@/types';
 import Image from 'next/image';
 import { DateTime } from 'luxon';
 import { toPng } from 'html-to-image';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 interface CardProps {
   profile: Profile;
@@ -19,6 +19,7 @@ export default function Card({
   setModalContent
 }: CardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isFlashing, setIsFlashing] = useState(false);
   const { name, username, location, avatar, url, last_online } = profile;
   const {
     rating,
@@ -28,6 +29,9 @@ export default function Card({
   const handleScreenshot = async () => {
     if (cardRef.current) {
       try {
+        setIsFlashing(true);
+        setTimeout(() => setIsFlashing(false), 300);
+
         // Wait for any state updates to complete
         await new Promise(resolve => requestAnimationFrame(resolve));
 
@@ -73,6 +77,9 @@ export default function Card({
       >
         📸
       </button>
+      {isFlashing && (
+        <div className='absolute inset-0 animate-flash bg-white/75 pointer-events-none z-50 rounded-2xl' />
+      )}
       <div className='flex justify-center pt-4'>
         <div className='flex flex-col items-center'>
           <h2 className='card-title'>{name ?? username}</h2>
