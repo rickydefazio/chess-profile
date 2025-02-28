@@ -77,7 +77,7 @@ export default function Card({
         <div className='flex flex-col items-center'>
           <h2 className='card-title'>{name ?? username}</h2>
           <p className='text-primary'>{location ?? 'Location Unknown'}</p>
-          <p className='text-sm text-yellow-50 text-opacity-60 whitespace-nowrap'>
+          <p className='text-sm text-yellow-50 text-opacity-60 whitespace-nowrap pt-[4px]'>
             📆 {getLastOnlineDisplay()}
           </p>
         </div>
