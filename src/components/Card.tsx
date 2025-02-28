@@ -2,6 +2,8 @@ import defaultImage from '../../public/defaultImage.jpg';
 import type { Profile, StatsWithCalculated, IWinStreak } from '@/types';
 import Image from 'next/image';
 import { DateTime } from 'luxon';
+import { toPng } from 'html-to-image';
+import { useRef } from 'react';
 
 interface CardProps {
   profile: Profile;
@@ -16,11 +18,43 @@ export default function Card({
   winStreak,
   setModalContent
 }: CardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
   const { name, username, location, avatar, url, last_online } = profile;
   const {
     rating,
     records: { wins, draws, losses }
   } = stats.calculatedStats;
+
+  const handleScreenshot = async () => {
+    if (cardRef.current) {
+      try {
+        // Wait for any state updates to complete
+        await new Promise(resolve => requestAnimationFrame(resolve));
+
+        const dataUrl = await toPng(cardRef.current, {
+          cacheBust: true,
+          quality: 1.0,
+          pixelRatio: 2,
+          skipAutoScale: true,
+          style: {
+            transform: 'scale(1)'
+          },
+          filter: () => true
+        });
+
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            'image/png': blob
+          })
+        ]);
+        // TODO: Alert the user that a screenshot was copied to their clipboard
+      } catch (error) {
+        console.error('Error taking screenshot:', error);
+      }
+    }
+  };
 
   const getLastOnlineDisplay = () => {
     if (!last_online) return 'Never';
@@ -30,22 +64,29 @@ export default function Card({
   };
 
   return (
-    <div className='card w-96 bg-base-100 shadow-xl'>
+    <div ref={cardRef} className='card w-96 bg-base-100 shadow-xl relative'>
+      <button
+        onClick={handleScreenshot}
+        className='absolute right-2 top-2 px-2.5
+ hover:bg-base-200 rounded-full transition-colors'
+        title='Copy card as image'
+      >
+        📸
+      </button>
       <div className='flex justify-center pt-4'>
         <div className='flex flex-col items-center'>
           <h2 className='card-title'>{name ?? username}</h2>
           <p className='text-primary'>{location ?? 'Location Unknown'}</p>
-          <p
-            className='text-sm text-yellow-50 text-opacity-60
-'
-          >
+          <p className='text-sm text-yellow-50 text-opacity-60 whitespace-nowrap'>
             📆 {getLastOnlineDisplay()}
           </p>
         </div>
       </div>
       <figure className='px-10 pt-10'>
         <Image
+          unoptimized
           src={avatar ?? defaultImage}
+          key={avatar}
           width={250}
           height={500}
           alt={`Profile picture of ${name ?? username}`}

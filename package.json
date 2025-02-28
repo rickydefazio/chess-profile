@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -11,8 +11,9 @@
   "dependencies": {
     "@vercel/analytics": "^1.0.0",
     "daisyui": "^2.51.5",
+    "html-to-image": "^1.11.13",
     "luxon": "^3.3.0",
-    "next": "13.3.0",
+    "next": "^15.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.1"
@@ -25,7 +26,7 @@
     "autoprefixer": "10.4.14",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
-    "postcss": "8.4.22",
+    "postcss": "^8.5.3",
     "prettier-plugin-tailwindcss": "^0.2.7",
     "typescript": "5.0.4"
   }
