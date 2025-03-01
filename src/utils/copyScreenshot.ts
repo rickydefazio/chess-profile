@@ -6,7 +6,9 @@ export const copyScreenshot = async (element: HTMLElement): Promise<void> => {
       quality: 1.0,
       pixelRatio: 2,
       skipAutoScale: true,
-      style: { transform: 'scale(1)' },
+      style: {
+        transform: 'scale(1)'
+      },
       filter: () => true
     });
     const response = await fetch(dataUrl);

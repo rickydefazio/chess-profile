@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { toPng } from 'html-to-image';
 import { copyScreenshot } from '@/utils/copyScreenshot';
 
 interface ScreenshotButtonProps {
