@@ -140,7 +140,10 @@ export default function Search({
     >
       <div className='form-control'>
         <div className='input-group'>
-          <div className='tooltip tooltip-accent' data-tip='Chess.com Username'>
+          <div
+            className='hover:tooltip hover:tooltip-accent'
+            data-tip='Chess.com Username'
+          >
             <input
               type='text'
               id='searchInput'
