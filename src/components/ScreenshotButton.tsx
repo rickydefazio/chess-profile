@@ -35,7 +35,7 @@ export default function ScreenshotButton({ targetRef }: ScreenshotButtonProps) {
     <>
       <button
         onClick={handleScreenshot}
-        className='absolute right-2 top-2 px-2.5 hover:bg-base-200 rounded-full transition-colors hidden sm:block'
+        className='absolute right-2 top-2 px-2.5 hover:bg-base-200 rounded-full transition-colors'
         title='Screenshot Card'
       >
         📸
