@@ -7,10 +7,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.chesscomfiles.com',
         port: '',
-        pathname: '/uploads/v1/user/**',
-      },
-    ],
-  },
+        pathname: '/uploads/v1/user/**'
+      }
+    ]
+  }
 };
 
-module.exports = nextConfig;
+export default nextConfig;
