@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { toPng } from 'html-to-image';
+import { copyScreenshot } from '@/utils/copyScreenshot';
 
 interface ScreenshotButtonProps {
-  targetRef: React.RefObject<HTMLDivElement | null>;
+  targetRef: React.RefObject<HTMLElement | null>;
 }
 
 export default function ScreenshotButton({ targetRef }: ScreenshotButtonProps) {
@@ -10,48 +11,24 @@ export default function ScreenshotButton({ targetRef }: ScreenshotButtonProps) {
   const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    if (showNotification) {
-      timeout = setTimeout(() => {
-        setShowNotification(false);
-      }, 3000);
-    }
+    if (!showNotification) return;
+
+    const timeout = setTimeout(() => setShowNotification(false), 3000);
+
     return () => clearTimeout(timeout);
   }, [showNotification]);
 
   const handleScreenshot = async () => {
-    if (targetRef?.current) {
-      try {
-        setIsFlashing(true);
-        setTimeout(() => setIsFlashing(false), 300);
+    if (!targetRef?.current) return;
 
-        // Wait for any state updates to complete
-        await new Promise(resolve => requestAnimationFrame(resolve));
+    try {
+      setIsFlashing(true);
+      setTimeout(() => setIsFlashing(false), 300);
 
-        const dataUrl = await toPng(targetRef.current, {
-          cacheBust: true,
-          quality: 1.0,
-          pixelRatio: 2,
-          skipAutoScale: true,
-          style: {
-            transform: 'scale(1)'
-          },
-          filter: () => true
-        });
-
-        const response = await fetch(dataUrl);
-        const blob = await response.blob();
-        await navigator.clipboard.write([
-          new ClipboardItem({
-            'image/png': blob
-          })
-        ]);
-
-        // Show notification instead of alert
-        setShowNotification(true);
-      } catch (error) {
-        console.error('Error taking screenshot:', error);
-      }
+      await copyScreenshot(targetRef.current);
+      setShowNotification(true);
+    } catch (error) {
+      console.error('Error taking screenshot:', error);
     }
   };
 
