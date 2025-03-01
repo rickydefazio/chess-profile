@@ -140,22 +140,17 @@ export default function Search({
     >
       <div className='form-control'>
         <div className='input-group'>
-          <div
-            className='hover:tooltip hover:tooltip-accent'
-            data-tip='Chess.com Username'
-          >
-            <input
-              type='text'
-              id='searchInput'
-              placeholder='Search...'
-              className='input-bordered input rounded-r-none focus:outline-none'
-              onChange={handleTextChange}
-              value={username}
-              autoFocus
-              ref={inputRef}
-              aria-label='Search'
-            />
-          </div>
+          <input
+            type='text'
+            id='searchInput'
+            placeholder='Chess.com Username'
+            className='input-bordered input rounded-r-none focus:outline-none'
+            onChange={handleTextChange}
+            value={username}
+            autoFocus
+            ref={inputRef}
+            aria-label='Search'
+          />
           <button
             id='searchButton'
             aria-label='Search'
