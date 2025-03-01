@@ -2,8 +2,8 @@ import defaultImage from '../../public/defaultImage.jpg';
 import type { Profile, StatsWithCalculated, IWinStreak } from '@/types';
 import Image from 'next/image';
 import { DateTime } from 'luxon';
-import { toPng } from 'html-to-image';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
+import ScreenshotButton from '../components/ScreenshotButton';
 
 interface CardProps {
   profile: Profile;
@@ -19,46 +19,11 @@ export default function Card({
   setModalContent
 }: CardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [isFlashing, setIsFlashing] = useState(false);
   const { name, username, location, avatar, url, last_online } = profile;
   const {
     rating,
     records: { wins, draws, losses }
   } = stats.calculatedStats;
-
-  const handleScreenshot = async () => {
-    if (cardRef.current) {
-      try {
-        setIsFlashing(true);
-        setTimeout(() => setIsFlashing(false), 300);
-
-        // Wait for any state updates to complete
-        await new Promise(resolve => requestAnimationFrame(resolve));
-
-        const dataUrl = await toPng(cardRef.current, {
-          cacheBust: true,
-          quality: 1.0,
-          pixelRatio: 2,
-          skipAutoScale: true,
-          style: {
-            transform: 'scale(1)'
-          },
-          filter: () => true
-        });
-
-        const response = await fetch(dataUrl);
-        const blob = await response.blob();
-        await navigator.clipboard.write([
-          new ClipboardItem({
-            'image/png': blob
-          })
-        ]);
-        // TODO: Alert the user that a screenshot was copied to their clipboard
-      } catch (error) {
-        console.error('Error taking screenshot:', error);
-      }
-    }
-  };
 
   const getLastOnlineDisplay = () => {
     if (!last_online) return 'Never';
@@ -69,16 +34,7 @@ export default function Card({
 
   return (
     <div ref={cardRef} className='card w-96 bg-base-100 shadow-xl relative'>
-      <button
-        onClick={handleScreenshot}
-        className='absolute right-2 top-2 px-2.5 hover:bg-base-200 rounded-full transition-colors hidden sm:block'
-        title='Copy card as image'
-      >
-        📸
-      </button>
-      {isFlashing && (
-        <div className='absolute inset-0 animate-flash bg-white/75 pointer-events-none z-50 rounded-2xl' />
-      )}
+      <ScreenshotButton targetRef={cardRef} />
       <div className='flex justify-center pt-4'>
         <div className='flex flex-col items-center'>
           <h2 className='card-title'>{name ?? username}</h2>
