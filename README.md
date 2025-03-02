@@ -112,7 +112,7 @@ yarn dev
 
 ## Author
 
-[Your Name](https://yourwebsite.com)
+[Ricky DeFazio](https://rickydefazio.github.io/)
 
 ---
 
