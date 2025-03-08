@@ -12,6 +12,10 @@ if (!admin.apps.length) {
     });
 
     console.log('Firebase Admin initialized successfully');
+
+    admin.firestore().settings({
+      ignoreUndefinedProperties: true
+    });
   } catch (error) {
     console.error('Firebase admin initialization error:', error);
     if (error instanceof Error) {

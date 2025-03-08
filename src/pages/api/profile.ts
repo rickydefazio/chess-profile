@@ -4,7 +4,6 @@ import cleanUsername from '@/utils/cleanUsername';
 import fetchWithRetry from '@/utils/fetchWithRetry';
 import getWinStreak from '@/utils/getWinStreak';
 import withinTimeFrame from '@/utils/withinTimeFrame';
-import sanitizeForFirestore from '@/utils/sanitizeForFirestore';
 import { createPlayer, getPlayer, updatePlayer } from '@/firebase-admin';
 import { DateTime } from 'luxon';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -56,13 +55,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const winStreak = winStreakResult.value;
 
+    if (winStreak.since === undefined) {
+      winStreak.since = null;
+    }
+
     const timestamp = DateTime.now().toSeconds();
-    const playerData = sanitizeForFirestore({
+    const playerData = {
       profile,
       stats: { ...stats, calculatedStats },
       winStreak,
       timestamp
-    });
+    };
 
     if (storedPlayer) {
       await updatePlayer(cleanedUsername, {
