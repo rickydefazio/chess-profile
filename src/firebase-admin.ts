@@ -26,19 +26,10 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-/**
- * Creates a new player document in Firestore using Admin SDK
- * @param player - Player object with username, data, and timestamp
- */
 export async function createPlayer(player: PlayerDocument): Promise<void> {
   await db.collection('players').doc(player.username).set(player);
 }
 
-/**
- * Updates an existing player document in Firestore using Admin SDK
- * @param username - The player's username
- * @param updateData - The data to update (contains data and timestamp)
- */
 export async function updatePlayer(
   username: string,
   updateData: Partial<PlayerDocument>
@@ -46,11 +37,6 @@ export async function updatePlayer(
   await db.collection('players').doc(username).update(updateData);
 }
 
-/**
- * Retrieves a player document from Firestore using Admin SDK
- * @param username - The player's username
- * @returns The player document or null if not found
- */
 export async function getPlayer(username: string) {
   const snapshot = await db.collection('players').doc(username).get();
 
