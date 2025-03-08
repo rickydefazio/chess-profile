@@ -1,5 +1,5 @@
 import isGameType from '@/utils/isGameType';
-import type { GameType, Stats } from '@/types';
+import type { Stats } from '@/types';
 import formatGameTypes from '@/utils/formatGameTypes';
 
 interface LossesProps {
@@ -12,7 +12,7 @@ export default function Losses({ data }: LossesProps) {
       .filter(([key]) => isGameType(key) && data[key]?.record?.loss)
       .map(([key, value]) => (
         <tr className='text-center' key={key}>
-          <td>{formatGameTypes(key as GameType)}</td>
+          <td>{formatGameTypes(key)}</td>
           <td>
             <span className='text-primary'>{value.record.loss}</span>
           </td>

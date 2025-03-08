@@ -21,7 +21,7 @@ export default function Card({
   const cardRef = useRef<HTMLDivElement>(null);
   const { name, username, location, avatar, url, last_online } = profile;
   const {
-    rating,
+    avgRating,
     records: { wins, draws, losses }
   } = stats.calculatedStats;
 
@@ -64,7 +64,7 @@ export default function Card({
             onClick={() => setModalContent({ title: 'Ratings', data: stats })}
           >
             <div className='badge-secondary badge-outline badge font-bold'>
-              Avg Rating: {Math.floor(rating ?? 0)}
+              Avg Rating: {Math.floor(avgRating ?? 0)}
             </div>
           </label>
           <label

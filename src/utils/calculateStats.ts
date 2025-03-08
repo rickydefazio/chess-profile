@@ -4,7 +4,7 @@ export function calculateRecords(stats: Stats) {
   const gameTypeKeys: GameType[] = [
     'chess_rapid',
     'chess_blitz',
-    'chess_bullet',
+    'chess_bullet'
   ];
 
   let wins = 0;
@@ -29,16 +29,16 @@ function calculateRating(stats: Stats) {
   const ratings: Rating[] = [
     {
       type: 'chess_rapid',
-      rating: stats.chess_rapid?.last.rating ?? null,
+      rating: stats.chess_rapid?.last.rating ?? null
     },
     {
       type: 'chess_blitz',
-      rating: stats.chess_blitz?.last.rating ?? null,
+      rating: stats.chess_blitz?.last.rating ?? null
     },
     {
       type: 'chess_bullet',
-      rating: stats.chess_bullet?.last.rating ?? null,
-    },
+      rating: stats.chess_bullet?.last.rating ?? null
+    }
   ];
 
   const { sumRatings, totalCount } = ratings.reduce(
@@ -58,7 +58,7 @@ function calculateRating(stats: Stats) {
 
 export default function calculateStats(stats: Stats) {
   const records = calculateRecords(stats);
-  const rating = calculateRating(stats);
+  const avgRating = calculateRating(stats);
 
-  return { records, rating };
+  return { records, avgRating };
 }
