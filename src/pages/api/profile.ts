@@ -20,7 +20,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const cleanedUsername = cleanUsername(username);
 
   try {
-    // Check if we have this player in the database and if the data is fresh (< 4 hours old)
+    // Check if we have this player in the database and if the data is fresh (< 1 hour old)
     const storedPlayer = await getPlayer(cleanedUsername);
 
     // If player exists in DB and data is fresh, return from DB
