@@ -20,14 +20,14 @@ The application follows a clean, layered architecture:
 ![Chess Profile Architecture](public/architecture.png)
 
 - **Client**: React components that handle the user interface and interactions
-- **Cache**: Session storage implementation to reduce API calls
+- **Database**: Firebase Firestore to store player data
 - **Internal API**: Next.js API routes that handle authentication and data processing
 - **External API**: Chess.com's public API for player data
 
 ## Key Features
 
 - **Real-time statistics**: Fetch the latest player data from Chess.com
-- **Performance caching**: Cache responses for 5 minutes to reduce API load
+- **Data Storage**: Firebase Firestore to store player data
 - **Responsive design**: Beautiful UI that works on desktop and mobile
 - **Error handling**: Graceful handling of API failures with retry mechanisms
 - **Authentication**: API key protection for internal endpoints
@@ -37,6 +37,7 @@ The application follows a clean, layered architecture:
 
 - **Frontend**: React, TypeScript, TailwindCSS
 - **Backend**: Next.js API Routes
+- **Database**: Firebase Firestore
 - **Data Fetching**: Fetch API with retry mechanism
 - **Date/Time Handling**: Luxon
 - **Deployment**: Vercel (or your deployment platform)
@@ -97,7 +98,7 @@ yarn dev
 
 ## Performance Optimizations
 
-- **Caching**: Responses are cached in session storage for 5 minutes
+- **Caching**: Responses are cached in Firebase Firestore for 1 hour
 - **Retry Mechanism**: API calls use exponential backoff for reliability
 - **Minimal Dependencies**: Lightweight dependency footprint
 

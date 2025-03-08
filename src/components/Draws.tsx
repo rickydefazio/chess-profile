@@ -1,4 +1,4 @@
-import type { GameType, Stats } from '@/types';
+import type { Stats } from '@/types';
 import formatGameTypes from '@/utils/formatGameTypes';
 import isGameType from '@/utils/isGameType';
 
@@ -11,7 +11,7 @@ export default function Draws({ data }: DrawsProps) {
       .filter(([key]) => isGameType(key) && data[key]?.record?.draw)
       .map(([key, value]) => (
         <tr key={key} className='text-center'>
-          <td>{formatGameTypes(key as GameType)}</td>
+          <td>{formatGameTypes(key)}</td>
           <td>
             <span className='text-primary'>{value.record.draw}</span>
           </td>

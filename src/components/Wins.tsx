@@ -1,4 +1,4 @@
-import type { GameType, Stats } from '@/types';
+import type { Stats } from '@/types';
 import formatGameTypes from '@/utils/formatGameTypes';
 import isGameType from '@/utils/isGameType';
 
@@ -12,7 +12,7 @@ export default function Wins({ data }: WinsProps) {
       .filter(([key]) => isGameType(key) && data[key]?.record?.win)
       .map(([key, value]) => (
         <tr className='text-center' key={key}>
-          <td>{formatGameTypes(key as GameType)}</td>
+          <td>{formatGameTypes(key)}</td>
           <td>
             <span className='text-primary'>{value.record.win}</span>
           </td>

@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { DateTime } from 'luxon';
 import type { Profile, StatsWithCalculated, IWinStreak } from '@/types';
 import cleanUsername from '@/utils/cleanUsername';
-import within5Minutes from '@/utils/within5Minutes';
 
 interface FetchResponse {
-  winStreak: IWinStreak;
-  timestamp: number;
   profile: Profile;
   stats: StatsWithCalculated;
+  winStreak: IWinStreak;
+  timestamp: number;
 }
 
 interface SearchProps {
@@ -35,7 +33,6 @@ export default function Search({
   setWinStreak
 }: SearchProps) {
   const [username, setUsername] = useState('');
-
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -46,39 +43,6 @@ export default function Search({
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value.trimStart().trimEnd());
-  };
-
-  const storeDataInSessionStorage = (
-    username: string,
-    data: FetchResponse,
-    timestamp: number
-  ) => {
-    const dataWithTimestamp = { ...data, timestamp };
-    sessionStorage.setItem(
-      `profileData_${username}`,
-      JSON.stringify(dataWithTimestamp)
-    );
-  };
-
-  const getDataFromSessionStorage = (
-    username: string
-  ): FetchResponse | null => {
-    const storedData = sessionStorage.getItem(`profileData_${username}`);
-    return storedData ? JSON.parse(storedData) : null;
-  };
-
-  const handleStoredData = async (username: string) => {
-    const storedData = getDataFromSessionStorage(username);
-
-    if (storedData && within5Minutes(storedData.timestamp)) {
-      setProfile(storedData.profile);
-      setStats(storedData.stats);
-      setWinStreak(storedData.winStreak);
-
-      return true;
-    }
-
-    return false;
   };
 
   const handleApiResponse = async (profileResponse: Response) => {
@@ -98,13 +62,11 @@ export default function Search({
       return;
     }
 
+    // The data is already stored in Firestore by the API endpoint
     const data: FetchResponse = await profileResponse.json();
     setProfile(data.profile);
     setStats(data.stats);
     setWinStreak(data.winStreak);
-
-    const timestamp = DateTime.now().toSeconds();
-    storeDataInSessionStorage(username, data, timestamp);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -115,16 +77,13 @@ export default function Search({
     const cleanedUsername = cleanUsername(username);
 
     try {
-      const hasStoredData = await handleStoredData(cleanedUsername);
+      // The API will check Firestore first, then Chess.com API if needed
+      const profileResponse = await fetch(
+        `/api/profile?username=${cleanedUsername}`,
+        requestInit
+      );
 
-      if (!hasStoredData) {
-        const profileResponse = await fetch(
-          `/api/profile?username=${cleanedUsername}`,
-          requestInit
-        );
-
-        await handleApiResponse(profileResponse);
-      }
+      await handleApiResponse(profileResponse);
     } catch (e) {
       console.error(e);
     } finally {
