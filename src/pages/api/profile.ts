@@ -20,10 +20,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const cleanedUsername = cleanUsername(username);
 
   try {
-    // Check if we have this player in the database and if the data is fresh (< 1 hour old)
     const storedPlayer = await getPlayer(cleanedUsername);
 
-    // If player exists in DB and data is fresh, return from DB
     if (
       storedPlayer &&
       storedPlayer.timestamp &&
@@ -32,7 +30,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json(storedPlayer.data);
     }
 
-    // If we get here, we need to fetch fresh data from Chess.com API
     const [playerResult, statsResult, winStreakResult] =
       await Promise.allSettled([
         fetchWithRetry(`https://api.chess.com/pub/player/${cleanedUsername}`),
@@ -57,13 +54,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const stats = await statsResult.value.json();
     const calculatedStats = calculateStats(stats);
 
-    // Get winStreak and ensure that undefined values are converted to null
     const winStreak = winStreakResult.value;
-    if (winStreak.since === undefined) {
-      winStreak.since = null;
-    }
 
-    // Prepare the data to store and return
     const timestamp = DateTime.now().toSeconds();
     const playerData = sanitizeForFirestore({
       profile,
@@ -72,7 +64,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       timestamp
     });
 
-    // Store the data in Firestore using Admin SDK
     if (storedPlayer) {
       await updatePlayer(cleanedUsername, {
         data: playerData,
