@@ -17,8 +17,6 @@ Chess Profile is a Next.js application that allows users to search for Chess.com
 
 The application follows a clean, layered architecture:
 
-![Chess Profile Architecture](public/architecture.png)
-
 - **Client**: React components that handle the user interface and interactions
 - **Database**: Firebase Firestore to store player data
 - **Internal API**: Next.js API routes that handle authentication and data processing
