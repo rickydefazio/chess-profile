@@ -40,45 +40,6 @@ The application follows a clean, layered architecture:
 - **Date/Time Handling**: Luxon
 - **Deployment**: Vercel (or your deployment platform)
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 14.x or higher
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/chess-profile.git
-cd chess-profile
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Create a `.env.local` file in the root directory with the following:
-
-```
-NEXT_PUBLIC_API_KEY=your_generated_api_key
-```
-
-4. Start the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Usage
 
