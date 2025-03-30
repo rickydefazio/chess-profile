@@ -20,40 +20,51 @@ export function calculateRecords(stats: Stats) {
   return { wins, losses, draws };
 }
 
-interface Rating {
-  type: string;
-  rating: number | null;
-}
-
 function calculateRating(stats: Stats) {
-  const ratings: Rating[] = [
+  // Get ratings and game counts for each type
+  const ratingsWithCounts = [
     {
       type: 'chess_rapid',
-      rating: stats.chess_rapid?.last.rating ?? null
+      rating: stats.chess_rapid?.last.rating ?? null,
+      gamesPlayed:
+        (stats.chess_rapid?.record.win ?? 0) +
+        (stats.chess_rapid?.record.loss ?? 0) +
+        (stats.chess_rapid?.record.draw ?? 0)
     },
     {
       type: 'chess_blitz',
-      rating: stats.chess_blitz?.last.rating ?? null
+      rating: stats.chess_blitz?.last.rating ?? null,
+      gamesPlayed:
+        (stats.chess_blitz?.record.win ?? 0) +
+        (stats.chess_blitz?.record.loss ?? 0) +
+        (stats.chess_blitz?.record.draw ?? 0)
     },
     {
       type: 'chess_bullet',
-      rating: stats.chess_bullet?.last.rating ?? null
+      rating: stats.chess_bullet?.last.rating ?? null,
+      gamesPlayed:
+        (stats.chess_bullet?.record.win ?? 0) +
+        (stats.chess_bullet?.record.loss ?? 0) +
+        (stats.chess_bullet?.record.draw ?? 0)
     }
   ];
 
-  const { sumRatings, totalCount } = ratings.reduce(
-    (acc, cur) => {
-      if (cur.rating) {
-        acc.sumRatings += cur.rating;
-        acc.totalCount += 1;
-      }
-      return acc;
-    },
-    { sumRatings: 0, totalCount: 0 }
+  const validEntries = ratingsWithCounts.filter(entry => entry.rating !== null);
+
+  const totalGamesPlayed = validEntries.reduce(
+    (sum, entry) => sum + entry.gamesPlayed,
+    0
   );
 
-  const avgRating = totalCount > 0 ? Math.round(sumRatings / totalCount) : 0;
-  return avgRating;
+  if (totalGamesPlayed === 0 || validEntries.length === 0) return 0;
+
+  const weightedSum = validEntries.reduce((sum, entry) => {
+    // Weight is proportional to games played
+    const weight = entry.gamesPlayed / totalGamesPlayed;
+    return sum + entry.rating! * weight;
+  }, 0);
+
+  return Math.round(weightedSum);
 }
 
 export default function calculateStats(stats: Stats) {
