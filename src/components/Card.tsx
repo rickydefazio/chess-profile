@@ -19,7 +19,7 @@ export default function Card({
   setModalContent
 }: CardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const { name, username, location, avatar, url, last_online } = profile;
+  const { name, username, location, avatar, url, last_online, title } = profile;
   const {
     avgRating,
     records: { wins, draws, losses }
@@ -35,9 +35,15 @@ export default function Card({
   return (
     <div ref={cardRef} className='card w-96 bg-base-100 shadow-xl relative'>
       <ScreenshotButton targetRef={cardRef} />
+
       <div className='flex justify-center pt-4'>
         <div className='flex flex-col items-center'>
-          <h2 className='card-title'>{name ?? username}</h2>
+          <h2 className='card-title'>
+            {name ?? username}
+            {title && (
+              <span className='text-secondary text-sm'>{`(${title})`}</span>
+            )}
+          </h2>
           <p className='text-primary'>{location ?? 'Location Unknown'}</p>
           <p className='text-sm text-yellow-50 text-opacity-60 whitespace-nowrap pt-[4px]'>
             📆 {getLastOnlineDisplay()}
