@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import type { Stats, IWinStreak } from '@/types';
 import ModalContent from './ModalContent';
 
@@ -10,9 +10,27 @@ interface ModalProps {
 }
 
 export default function Modal({ content }: ModalProps) {
+  const checkboxRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (checkboxRef.current && checkboxRef.current.checked) {
+          checkboxRef.current.checked = false;
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleEscKey);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [checkboxRef]);
+
   return (
     <>
       <input
+        ref={checkboxRef}
         type='checkbox'
         id='my-modal-4'
         className='modal-toggle'
