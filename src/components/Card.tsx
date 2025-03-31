@@ -73,8 +73,8 @@ export default function Card({
         <div className='flex w-full justify-around'>
           <label
             htmlFor='my-modal-4'
-            className={`${avgRating > 0 ? 'cursor-pointer' : 'cursor-not-allowed opacity-70'}`}
-            onClick={() => avgRating > 0 && handleModalOpen('Ratings', stats)}
+            className={'cursor-pointer'}
+            onClick={() => handleModalOpen('Ratings', stats)}
           >
             <div className='badge-secondary badge-outline badge font-bold'>
               Avg Rating: {Math.floor(avgRating ?? 0)}
@@ -82,10 +82,8 @@ export default function Card({
           </label>
           <label
             htmlFor='my-modal-4'
-            className={`${winStreak.current > 0 ? 'cursor-pointer' : 'cursor-not-allowed opacity-70'}`}
-            onClick={() =>
-              winStreak.current > 0 && handleModalOpen('Win Streak', winStreak)
-            }
+            className={'cursor-pointer'}
+            onClick={() => handleModalOpen('Win Streak', winStreak)}
           >
             <div className='badge-info badge-outline badge font-bold'>
               Win Streak: {winStreak.current}{' '}
@@ -99,8 +97,8 @@ export default function Card({
           <div className='stat'>
             <label
               htmlFor='my-modal-4'
-              className={`${wins > 0 ? 'cursor-pointer' : 'cursor-not-allowed opacity-70'}`}
-              onClick={() => wins > 0 && handleModalOpen('Wins', stats)}
+              className={'cursor-pointer'}
+              onClick={() => handleModalOpen('Wins', stats)}
             >
               <div className='stat-title text-green-500'>Wins</div>
               <div className='stat-value text-2xl'>{wins ?? 0}</div>
@@ -109,8 +107,8 @@ export default function Card({
           <div className='stat'>
             <label
               htmlFor='my-modal-4'
-              className={`${draws > 0 ? 'cursor-pointer' : 'cursor-not-allowed opacity-70'}`}
-              onClick={() => draws > 0 && handleModalOpen('Draws', stats)}
+              className={'cursor-pointer'}
+              onClick={() => handleModalOpen('Draws', stats)}
             >
               <div className='stat-title'>Draws</div>
               <div className='stat-value text-2xl'>{draws ?? 0}</div>
@@ -119,8 +117,8 @@ export default function Card({
           <div className='stat'>
             <label
               htmlFor='my-modal-4'
-              className={`${losses > 0 ? 'cursor-pointer' : 'cursor-not-allowed opacity-70'}`}
-              onClick={() => losses > 0 && handleModalOpen('Losses', stats)}
+              className={'cursor-pointer'}
+              onClick={() => handleModalOpen('Losses', stats)}
             >
               <div className='stat-title text-red-500'>Losses</div>
               <div className='stat-value text-2xl'>{losses ?? 0}</div>

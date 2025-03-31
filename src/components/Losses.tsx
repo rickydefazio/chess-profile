@@ -8,6 +8,17 @@ interface LossesProps {
 
 export default function Losses({ data }: LossesProps) {
   function renderLosses(data: Stats) {
+    if (
+      !data.chess_blitz?.record.loss &&
+      !data.chess_rapid?.record.loss &&
+      !data.chess_bullet?.record.loss
+    )
+      return (
+        <tr className='text-center'>
+          <td colSpan={2}>Okay... Now I&apos;m impressed. 🤯</td>
+        </tr>
+      );
+
     return Object.entries(data)
       .filter(([key]) => isGameType(key) && data[key]?.record?.loss)
       .map(([key, value]) => (

@@ -7,6 +7,17 @@ interface DrawsProps {
 }
 export default function Draws({ data }: DrawsProps) {
   function renderDraws(data: Stats) {
+    if (
+      !data.chess_blitz?.record.draw &&
+      !data.chess_rapid?.record.draw &&
+      !data.chess_bullet?.record.draw
+    )
+      return (
+        <tr className='text-center'>
+          <td colSpan={2}>Draw? Never... 🙅🏻‍♂️</td>
+        </tr>
+      );
+
     return Object.entries(data)
       .filter(([key]) => isGameType(key) && data[key]?.record?.draw)
       .map(([key, value]) => (

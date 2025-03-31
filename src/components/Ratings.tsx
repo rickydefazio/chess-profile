@@ -9,6 +9,17 @@ interface RatingsProps {
 
 export default function Ratings({ data }: RatingsProps) {
   function renderRatings(data: Stats) {
+    if (
+      !data.chess_blitz?.last.rating &&
+      !data.chess_rapid?.last.rating &&
+      !data.chess_bullet?.last.rating
+    )
+      return (
+        <tr className='text-center'>
+          <td colSpan={2}>Do you even play chess?! ♟️</td>
+        </tr>
+      );
+
     return Object.entries(data)
       .filter(([key]) => isGameType(key) && data[key]?.last?.rating)
       .map(([key, value]) => (

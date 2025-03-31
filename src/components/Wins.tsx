@@ -8,6 +8,17 @@ interface WinsProps {
 
 export default function Wins({ data }: WinsProps) {
   function renderWins(data: Stats) {
+    if (
+      !data.chess_blitz?.record.win &&
+      !data.chess_rapid?.record.win &&
+      !data.chess_bullet?.record.win
+    )
+      return (
+        <tr className='text-center'>
+          <td colSpan={2}>Keep trying! You got this! 💪🏻</td>
+        </tr>
+      );
+
     return Object.entries(data)
       .filter(([key]) => isGameType(key) && data[key]?.record?.win)
       .map(([key, value]) => (
