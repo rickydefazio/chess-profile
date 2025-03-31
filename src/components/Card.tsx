@@ -89,7 +89,9 @@ export default function Card({
           >
             <div className='badge-info badge-outline badge font-bold'>
               Win Streak: {winStreak.current}{' '}
-              {winStreak.current > 5 && <span className='pl-1'>🔥</span>}
+              {winStreak.current >= 3 && (
+                <span className='pl-1 text-xs'>🔥</span>
+              )}
             </div>
           </label>
         </div>
