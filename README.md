@@ -40,7 +40,6 @@ The application follows a clean, layered architecture:
 - **Date/Time Handling**: Luxon
 - **Deployment**: Vercel (or your deployment platform)
 
-
 ## Usage
 
 1. Enter a valid Chess.com username in the search box
@@ -61,7 +60,7 @@ The application follows a clean, layered architecture:
 - **Retry Mechanism**: API calls use exponential backoff for reliability
 - **Minimal Dependencies**: Lightweight dependency footprint
 
-## Future Improvements
+## Potential Future Improvements
 
 - Add historical performance tracking over time
 - Add comparative analysis between players
