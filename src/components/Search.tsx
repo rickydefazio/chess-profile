@@ -94,18 +94,24 @@ export default function Search({
 
   return (
     <form
+      role='search'
       onSubmit={handleSubmit}
       className='mb-4 flex flex-col gap-2 text-white sm:flex-row'
     >
       <div className='form-control'>
         <div className='input-group'>
           <input
-            type='text'
+            type='search'
             id='searchInput'
+            name='q'
             placeholder='Chess.com Username'
             className='input-bordered input rounded-r-none focus:outline-none'
             onChange={handleTextChange}
             value={username}
+            autoComplete='off'
+            autoCorrect='off'
+            spellCheck={false}
+            enterKeyHint='search'
             autoFocus
             ref={inputRef}
             aria-label='Search'
