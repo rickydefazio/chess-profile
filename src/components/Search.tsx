@@ -111,6 +111,7 @@ export default function Search({
             aria-label='Search'
           />
           <button
+            type='submit'
             id='searchButton'
             aria-label='Search'
             className='btn-primary btn-square btn'
